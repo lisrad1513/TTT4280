@@ -15,7 +15,7 @@ CI_minus = x_bar - (z * (s / np.sqrt(n)))
 
 print(f"95% konfidensintervall med 20 målinger: [{round(CI_minus, 3)}, {round(CI_plus, 3)}]")
 
-#Oppgave 2 c)
+#Oppgave 2 c) Bare første 10 målinger
 maalinger_ti = maalinger[0:10]
 n_ti = len(maalinger_ti)
 

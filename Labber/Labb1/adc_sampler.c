@@ -39,9 +39,9 @@ channel ADC without need for any input to initiate sampling.
 #define OUTPUT_DATA argv[2] // path and filename to dump buffered ADC data
 
 /* RPi PIN ASSIGNMENTS */
-#define MISO1 12    // ADC 1 MISO (GPIO pin number) Changed from 21 to 32 for labb 1
-#define MISO2 22    // ADC 2 MISO (GPIO pin number) Changed from 22 to 15 for labb 1
-#define MISO3 27    // ADC 3 MISO (GPIO pin number) Changed from 23 to 13 for labb 1
+#define MISO1 32    // ADC 1 MISO (GPIO pin number) Changed from 21 to 32 for labb 1
+#define MISO2 15    // ADC 2 MISO (GPIO pin number) Changed from 22 to 15 for labb 1
+#define MISO3 13    // ADC 3 MISO (GPIO pin number) Changed from 23 to 13 for labb 1
 #define MISO4 25    // ADC 4 MISO (GPIO pin number) Not used in labb 1
 #define MISO5 26    // ADC 5 MISO (GPIO pin number) Not used in labb 1
 

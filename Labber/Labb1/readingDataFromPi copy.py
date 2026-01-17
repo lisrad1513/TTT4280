@@ -28,31 +28,21 @@ def converter(data): #Convert from counts to volts
     Vconv = (C/resulution * data)
     return Vconv
 
-print(rangePeriod)
 
-def timeConverter(time):
-    if rangePeriod > 1:
-        return "s", time
-    elif rangePeriod > 0.001 and rangePeriod <= 1:
-        return "ms", time * 1e3
-    else:
-        return "us", time * 1e6
-
-timeUnit, timeaxis = timeConverter(time_axis)
 
 for i in range(channels):
     #plt.plot(time_axis, converter(data[:, i]) + i*C, label=f'Channel {i+1}')
-    plt.plot(timeaxis, converter(data[:, i]) + i*C, label=f'Channel {i+1}')
+    plt.plot(time_axis, converter(data[:, i]) + i*C, label=f'Channel {i+1}')
+    plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f"{x*1e3:g}"))
 
 # plt.axhline(y=C, linestyle='--', label="Max voltage, 3.3V")
 # plt.axhline(y=C/2, linestyle='--', label="Mid voltage, 1.65V", color='red')
 # plt.axhline(y=0, linestyle='--', label="Min voltage, 0V")
 #plt.plot(time_axis, data[:, 0], label='Channel 1')
-_, rangePeriodConverted = timeConverter(np.array([rangePeriod]))
-plt.xlim(0, rangePeriodConverted[0])
+plt.xlim(0, rangePeriod)
 #plt.plot(time_axis, data[:, 1], label='Channel 2')
 #plt.plot(time_axis, data[:, 2], label='Channel 3')
-plt.xlabel(f"Time [{timeUnit}]")
+plt.xlabel("Time [ms]")
 plt.ylabel("Voltage [V]")
 plt.title("Data form ADC modules")
 plt.legend()

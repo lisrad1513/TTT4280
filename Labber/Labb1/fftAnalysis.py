@@ -80,7 +80,7 @@ for ch in range(mag_db.shape[1]):
 #2: zoom near targetFreq
 plotWholeSpectrum = 0 #Change this value to 0, 1, or 2
 if plotWholeSpectrum == 0:
-    plt.xlim(0, 2000)
+    plt.xlim(0, 6000)
 elif plotWholeSpectrum == 1:
     plt.xlim(0, fs / 2)
 else:

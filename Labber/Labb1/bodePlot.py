@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import csv
+
+header = []
+data1 = []
+filename1 = 'ELSYSS6/Sensor/Labber/Labb1/Filter/Filter15Ohm501Steps.csv'
+
+with open(filename1, mode='r') as csvfile:
+    csvreader = csv.reader(csvfile)
+    header = next(csvreader)
+    for datapoint in csvreader:
+        values = [float(value) for value in datapoint]
+        data1.append(values)
+
+freq1 = [p[0] for p in data1]
+db1 = [p[1] for p in data1]
+db2 = [p[2] for p in data1]
+
+plt.xlabel("Frekvens [Hz]")
+plt.ylabel("Demping [dB]")
+
+plt.title(r"Amplituderespons til filter [1Hz - 100kHz]")
+
+plt.plot(freq1, db1, label=r'Channel 1', alpha=1)
+plt.plot(freq1, db2, label=r'Channel 2', alpha=1)
+
+plt.axhline(y=-3, linestyle='--', label=r'Knekkfrekvens', alpha=0.6)
+plt.axvline(x=24.5471, linestyle='--', label=r'Knekkfrekvens', alpha=0.6)
+
+plt.xscale("log")  #Logarithmic x-axis
+
+#Finding limits for x-axis
+xmin = min(f for f in freq1 if f > 0)
+plt.xlim(xmin, max(freq1))
+
+plt.legend()
+plt.grid(True, which="both")
+plt.show()

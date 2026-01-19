@@ -5,50 +5,40 @@ import matplotlib.pyplot as plt
 A = 1.0             #Amplitude [V]
 f0 = 100.0          #Frequency [Hz]
 deltaT = 0.2e-3     #Sampling time [s]
-fs = 1 / deltaT
 N = 900             #Number of samples
 
-#Time signal
+fs = 1 / deltaT     #Sampling frequency
+fN = fs / 2         #Nyquist frequency
+
+#Time vector (900 samples)
 t = np.arange(N) * deltaT
+
+#Sine signal
 x = A * np.sin(2 * np.pi * f0 * t)
 
-def periodogram_full(x, sample_period):
-    x = x.astype(np.float64)
+NFFT = 1024  #Number of points in FFT (next power of 2 above N)
 
-    #Remove DC
-    x = x - np.mean(x)
+x_padding = np.zeros(NFFT)  #Zero padded signal
+x_padding[:N] = x            #Copy original signal into padded array
 
-    fs = 1.0 / sample_period
-    NFFT = len(x)
 
-    #Full FFT length NFFT
-    X = np.fft.fft(x)
+X = np.fft.fft(x_padding, n=NFFT)  #FFT computation
 
-    #Frequency axis 0 to fs (NFFT points)
-    freq = np.arange(NFFT) * fs / NFFT
+df = fs / NFFT          #Frequency resolution
+f = np.arange(NFFT) * df  #Frequency vector
 
-    #Periodogram Sxx = |X|^2 (simple normalized version)
-    Sxx = (np.abs(X) ** 2) / (NFFT ** 2)
 
-    #Power in dB
-    Sxx_db = 10 * np.log10(Sxx + 1e-20)
+print(rf"Sampling frequency $f_s$ = {fs} Hz")
+print(rf"Nyquist frequency $f_N$ = {fN} Hz")
 
-    return freq, Sxx_db, NFFT
+S_xx = np.abs(X)**2 / NFFT  #Power spectral density
 
-freq, Sxx_db, NFFT = periodogram_full(x, deltaT)
-
-delta_f = fs / NFFT
-print(f"NFFT = {NFFT}")
-print(f"fs = {fs} Hz")
-print(f"Δf = {delta_f} Hz")
-print(f"Mirror frequency = {fs - f0} Hz")
-
-plt.plot(freq, Sxx_db, label='Periodogram')
-plt.axvline(x=f0, color='r', linestyle='--', label='Signal Frequency (100 Hz)')
-plt.title("Periodogram $S_{XX}(f) = |X(f)|^2$")
-plt.xlabel("Frequency [Hz]")
-plt.ylabel("Power [dB]")
-plt.xlim(0, 200)
+plt.plot(f, S_xx)
+plt.axvline(x=f0, color='r', linestyle='--', label=f'Frequency {f0} Hz')
 plt.legend()
+plt.xlim(0, 200)
+plt.xlabel('Frequency [Hz]')
+plt.ylabel(r'Power Spectral Density [$\frac{V^2}{Hz}$]')
+plt.title('Power Spectral Density of the Sine Signal')
 plt.grid(True)
 plt.show()

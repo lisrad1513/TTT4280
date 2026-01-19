@@ -23,7 +23,7 @@ N = x.shape[0]
 fs = 1.0 / sample_period
 
 #Window functions
-windowFunction = 'bartlett' # Options: 'none', 'hann', 'hamming', 'blackman', 'bartlett'
+windowFunction = 'none' # Options: 'none', 'hann', 'hamming', 'blackman', 'bartlett'
 if windowFunction == 'none':
     w = np.ones((N, 1))
 

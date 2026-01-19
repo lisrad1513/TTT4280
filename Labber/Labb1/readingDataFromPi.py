@@ -13,7 +13,8 @@ periodsCount = 10 #How many periods you want to display
 periodTime = 1/freqIn  #seconds
 rangePeriod = periodsCount * periodTime 
 
-sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb1/{freqIn}Hz/31250Samples1_65VOffset1_65V{freqIn}Hz', channels)
+#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb1/{freqIn}Hz/31250Samples1_65VOffset1_65V{freqIn}Hz', channels)
+sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb1/demoForStudass', channels)
 
 print(data.shape)
 
@@ -24,8 +25,8 @@ print(data)
 C = 3.3  # volts per count for MCP3201 with Vref = 3.3V
 
 def converter(data): #Convert from counts to volts
-    resulution = 2**12
-    Vconv = (C/resulution * data)
+    resulution = (2**12) - 1  #12 bit ADC
+    Vconv = (data / resulution) * C
     return Vconv
 
 

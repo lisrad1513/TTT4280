@@ -47,3 +47,5 @@ plt.ylabel("Voltage [V]")
 plt.title("Data form ADC modules")
 plt.legend()
 plt.show()
+
+#3 subplots :)

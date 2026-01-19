@@ -8,7 +8,7 @@ freqIn = 1000   #1 kHz
 
 sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb1/{freqIn}Hz/31250Samples1_65VOffset1_65V{freqIn}Hz', channels)
 
-targetFreq = freqIn  # Hz
+targetFreq = freqIn  #Hz
 
 #Convert ADC data to float so FFT and mean subtraction behave as expected.
 x = data.astype(np.float64)
@@ -23,7 +23,7 @@ N = x.shape[0]
 fs = 1.0 / sample_period
 
 #Window functions
-windowFunction = 'hann' # Options: 'none', 'hann', 'hamming', 'blackman', 'bartlett'
+windowFunction = 'bartlett' # Options: 'none', 'hann', 'hamming', 'blackman', 'bartlett'
 if windowFunction == 'none':
     w = np.ones((N, 1))
 
@@ -72,7 +72,7 @@ mag_db = 20.0 * np.log10(mag + eps) #eps prevents log10(0)
 
 plt.figure()
 for ch in range(mag_db.shape[1]):
-    plt.plot(freq, mag_db[:, ch], label=f"Channel {ch}")
+    plt.plot(freq, mag_db[:, ch], label=f"ADC {ch}")
 
 #Control what frequency range is shown
 #0: show 0 to 2000 Hz
@@ -86,10 +86,11 @@ elif plotWholeSpectrum == 1:
 else:
     plt.xlim(targetFreq - 20, targetFreq + 20)
 
-plt.xlabel("Frequency [Hz]")
+
+plt.xlabel("Frekvens [Hz]")
 plt.ylabel("Magnitude [dB]")
-plt.title("FFT Analysis of ADC Data")
-plt.axvline(x=targetFreq, linestyle='--', label=f"Target frequency, {targetFreq}Hz", color='red')
+plt.title("FFT Analyse av ADC Data")
+plt.axvline(x=targetFreq, linestyle='--', label=f"Målfrekvens, {targetFreq}Hz", color='red')
 plt.axvline(x=50, linestyle='--', label=f"50Hz mains", color='red', alpha=0.25)
 plt.grid(True)
 plt.legend()

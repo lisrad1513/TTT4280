@@ -10,16 +10,16 @@ sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb1/{freqIn}Hz/3125
 
 targetFreq = freqIn  # Hz
 
-# Convert ADC data to float so FFT and mean subtraction behave as expected.
+#Convert ADC data to float so FFT and mean subtraction behave as expected.
 x = data.astype(np.float64)
 
-# Remove DC offset (mean value) from each channel separately.
+#Remove DC offset (mean value) from each channel separately.
 x = x - np.mean(x, axis=0, keepdims=True)
 
-# Number of time samples
+#Number of time samples
 N = x.shape[0]
 
-# Sampling frequency fs in Hz (samples per second)
+#Sampling frequency fs in Hz (samples per second)
 fs = 1.0 / sample_period
 
 #Window functions
@@ -43,7 +43,7 @@ else:
     print("Unknown window function, defaulting to none.")
     w = np.ones((N, 1))
 
-# Apply the window to each channel
+#Apply the window to each channel
 xw = x * w
 
 #Zero padding / nfft choice (nfft > N adds zero padding)
@@ -53,22 +53,22 @@ if nfftChooser:
 else:
     nfft = N
 
-# Compute one sided FFT for real signals along the time axis (axis=0).
+#Compute one sided FFT for real signals along the time axis (axis=0).
 X = np.fft.rfft(xw, n=nfft, axis=0)
 
-# Frequency axis for rfft, in Hz, using the real sample period Ts
+#Frequency axis for rfft, in Hz, using the real sample period Ts
 freq = np.fft.rfftfreq(nfft, d=sample_period)
 
-# Magnitude spectrum (absolute value of complex FFT).
+#Magnitude spectrum (absolute value of complex FFT).
 mag = np.abs(X) / N
 
-# For a one sided spectrum, energy that was split between positive and negative frequencies is folded into the positive side, so we multiply interior bins by 2.
+#For a one sided spectrum, energy that was split between positive and negative frequencies is folded into the positive side, so we multiply interior bins by 2.
 if nfft > 1:
     mag[1:-1, :] *= 2.0
 
-# Convert magnitude to decibels.
+#Convert magnitude to decibels.
 eps = 1e-12
-mag_db = 20.0 * np.log10(mag + eps) # eps prevents log10(0)
+mag_db = 20.0 * np.log10(mag + eps) #eps prevents log10(0)
 
 plt.figure()
 for ch in range(mag_db.shape[1]):
@@ -78,9 +78,9 @@ for ch in range(mag_db.shape[1]):
 #0: show 0 to 2000 Hz
 #1: show full available one sided range 0 to fs/2
 #2: zoom near targetFreq
-plotWholeSpectrum = 0 #Change this value to 0, 1, or 2
+plotWholeSpectrum = 1 #Change this value to 0, 1, or 2
 if plotWholeSpectrum == 0:
-    plt.xlim(0, 6000)
+    plt.xlim(0, 3000)
 elif plotWholeSpectrum == 1:
     plt.xlim(0, fs / 2)
 else:

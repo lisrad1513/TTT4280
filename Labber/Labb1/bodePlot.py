@@ -22,11 +22,11 @@ plt.ylabel("Demping [dB]")
 
 plt.title(r"Amplituderespons til filter [1Hz - 100kHz]")
 
-plt.plot(freq1, db1, label=r'Channel 1', alpha=1)
-plt.plot(freq1, db2, label=r'Channel 2', alpha=1)
+plt.plot(freq1, db1, label=r'Spenning in, $v_{DD}$', alpha=1)
+plt.plot(freq1, db2, label=r'Spenning ut, $v_{filter}$', alpha=1)
 
-plt.axhline(y=-3, linestyle='--', label=r'Knekkfrekvens', alpha=0.6)
-plt.axvline(x=24.5471, linestyle='--', label=r'Knekkfrekvens', alpha=0.6)
+plt.axhline(y=-3, linestyle='--', label=r'Knekkfrekvens, -3 dB', color='red', alpha=0.6)
+plt.axvline(x=24.5471, linestyle='--', label=r'Knekkfrekvens, 24.55 Hz', alpha=0.6)
 
 plt.xscale("log")  #Logarithmic x-axis
 

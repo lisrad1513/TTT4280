@@ -26,6 +26,4 @@ X = np.fft.fft(x_padding, n=NFFT)  #FFT computation
 df = fs / NFFT          #Frequency resolution
 f = np.arange(NFFT) * df  #Frequency vector
 
-
-print(rf"Sampling frequency $f_s$ = {fs} Hz")
-print(rf"Nyquist frequency $f_N$ = {fN} Hz")
+print(rf"Interval $d_f$ = {df} Hz")

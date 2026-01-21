@@ -43,18 +43,18 @@ X_rect = np.fft.fft(w_win, n=NFFT)  #FFT computation of windowed signal
 S_rect = 20 * np.log10(np.abs(X_rect))
 S_rect = S_rect - np.max(S_rect)  #Normalize to 0 dB max
 
-X_hann = np.fft.fft(w_win, n=NFFT)  #FFT computation of windowed signal
-S_hann = 20 * np.log10(np.abs(X_hann))
-S_hann = S_hann - np.max(S_hann)  #Normalize to 0 dB max
+X_hanning = np.fft.fft(w_win, n=NFFT)  #FFT computation of windowed signal
+S_hanning = 20 * np.log10(np.abs(X_hanning))
+S_hanning = S_hanning - np.max(S_hanning)  #Normalize to 0 dB max
 
 plt.plot(f, Sxx_bb, label='Rectangular Window (No Window)')
-plt.plot(f, S_hann, label='Hanning Window')
+plt.plot(f, S_hanning, label='Hanning Window')
 plt.axvline(x=f0, color='r', linestyle='--', label=f'Frequency {f0} Hz')
 plt.legend()
 plt.xlim(0, 200)
-plt.ylim(-80, 10)
+plt.ylim(-80, 25)
 plt.xlabel('Frequency [Hz]')
-plt.ylabel(r'Power Spectral Density [$\frac{V^2}{Hz}$]')
+plt.ylabel('Relative Power [dB]')
 plt.title('Power Spectral Density of the Sine Signal')
 plt.grid(True)
 plt.show()

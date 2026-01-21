@@ -36,7 +36,7 @@ S_xx = np.abs(X)**2 / NFFT  #Power spectral density
 plt.plot(f, S_xx)
 plt.xlim(0, 5000)
 plt.xlabel('Frequency [Hz]')
-plt.ylabel(r'Power Spectral Density [$\frac{V^2}{Hz}$]')
+plt.ylabel(r'$S_{xx}(f) = |X(f)|^2$')
 plt.title('Periodogram of the Sine Signal [0-5000 Hz]')
 plt.grid(True)
 plt.show()

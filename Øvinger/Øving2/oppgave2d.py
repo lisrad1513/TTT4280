@@ -33,16 +33,13 @@ Sxx_bb = Sxx_bb - np.max(Sxx_bb)  #Normalize to 0 dB max
 df = fs / NFFT          #Frequency resolution
 f = np.arange(NFFT) * df  #Frequency vector
 
-
-
-
 plt.plot(f, Sxx_bb)
 plt.axvline(x=f0, color='r', linestyle='--', label=f'Frequency {f0} Hz')
 plt.legend()
 plt.xlim(0, 200)
 plt.ylim(-80, 10)
 plt.xlabel('Frequency [Hz]')
-plt.ylabel(r'Power Spectral Density [$\frac{V^2}{Hz}$]')
+plt.ylabel('Relative Power [dB]')
 plt.title('Power Spectral Density of the Sine Signal')
 plt.grid(True)
 plt.show()

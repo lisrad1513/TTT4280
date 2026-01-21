@@ -26,3 +26,4 @@ plt.ylabel('Magnitude')
 plt.title('Magnitude Spectrum of the Complex Exponential Signal')
 plt.grid(True)
 plt.show()
+

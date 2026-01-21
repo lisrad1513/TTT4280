@@ -58,3 +58,4 @@ plt.ylabel('Relative Power [dB]')
 plt.title('Power Spectral Density of the Sine Signal')
 plt.grid(True)
 plt.show()
+

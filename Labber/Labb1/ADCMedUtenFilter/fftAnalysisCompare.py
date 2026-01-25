@@ -1,6 +1,10 @@
 import numpy as np                      
-import matplotlib.pyplot as plt         
-from raspi_import import raspi_import   
+import matplotlib.pyplot as plt     
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from raspi_import import raspi_import
 
 channels = 3
 

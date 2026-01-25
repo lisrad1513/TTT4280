@@ -2,24 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from forsinkelse import finn_forsinkelse, finn_forsinkelse_med_oppampling
-
-
-def generer_signaler(frekvens, fs, varighet, forsinkelse_samples):
-    """
-    Genererer to sinussignaler der y er en forsinket versjon av x med et helt antall sampler.
-
-    Viktig:
-    Her lages y ved å forskyve signalet i tid: y(t) = sin(2*pi*f*(t - delay/fs)).
-    Det betyr at y "kommer senere" enn x når delay > 0.
-    """
-    t = np.arange(0, varighet, 1 / fs)
-
-    x = np.sin(2 * np.pi * frekvens * t)
-
-    delay_s = forsinkelse_samples / fs
-    y = np.sin(2 * np.pi * frekvens * (t - delay_s))
-
-    return t, x, y, forsinkelse_samples
+from generateSineSignal import generer_signaler
 
 
 # Parametere

@@ -84,4 +84,3 @@ else:
     
     theta_deg = np.degrees(theta_rad)
     print(f"Vinkel theta: {theta_deg:.2f}\u00b0")
-

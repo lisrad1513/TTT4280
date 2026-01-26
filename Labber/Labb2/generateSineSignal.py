@@ -17,7 +17,6 @@ def generer_signaler(frekvens, fs, varighet, forsinkelse_samples):
 
     return t, x, y, forsinkelse_samples
 
-
 def generer_sinus(t, frekvens, delay_samples, fs):
     delay_s = delay_samples / fs
     return np.sin(2 * np.pi * frekvens * (t - delay_s))

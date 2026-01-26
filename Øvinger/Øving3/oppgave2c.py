@@ -22,3 +22,4 @@ max_rel_error = np.max(np.abs(rel_error))
 
 print(f"Maks relativ feil i frekvensestimatet: {max_rel_error * 100:.2f} %")
 print(f"Teoretisk relativ feil: {(tau_error + d_error) * 100:.2f} %")
+

@@ -23,7 +23,7 @@ print(f"Forventet forsinkelse: {forventet_delay_samples} samples ({forventet_del
 
 if not oppsamplet:
     # m_delay, tau, rxy, lags_m = finn_forsinkelse(x, y, fs)
-xx    print(f"Funnet forsinkelse:     {m_delay} samples ({tau} sekunder)")
+    print(f"Funnet forsinkelse:     {m_delay} samples ({tau} sekunder)")
 else:
     m_delay, tau, rxy, lags_m = finn_forsinkelse_med_oppampling(x, y, fs, oppsamplingsfaktor, vindu=40)
     print(f"Funnet (oppsamplet):    {m_delay} samples ({tau} sekunder)")

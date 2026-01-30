@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from forsinkelse import finn_forsinkelse, finn_forsinkelse_med_oppampling
+from forsinkelse import finn_forsinkelse, finn_forsinkelse_med_oppampling, finn_forsinkelse_test
 from generateSineSignal import sinus_med_pakke
 
 # Parametere
@@ -28,17 +28,21 @@ oppsamplet = False
 oppsamplingsfaktor = 16
 
 if not oppsamplet:
-    #Heltalls samples
-    m21, tau_21, r21, l21 = finn_forsinkelse(sig2, sig1, fs)
-    m31, tau_31, r31, l31 = finn_forsinkelse(sig3, sig1, fs) 
-    m32, tau_32, r32, l32 = finn_forsinkelse(sig3, sig2, fs)
+    #Heltalls samples using finn_forsinkelse_test
+    r21 = finn_forsinkelse_test(sig2, sig1, fs)
+    r31 = finn_forsinkelse_test(sig3, sig1, fs)
+    r32 = finn_forsinkelse_test(sig3, sig2, fs)
+    
+    # m21, tau_21, r21, l21 = finn_forsinkelse(sig2, sig1, fs)
+    # m31, tau_31, r31, l31 = finn_forsinkelse(sig3, sig1, fs) 
+    # m32, tau_32, r32, l32 = finn_forsinkelse(sig3, sig2, fs)
 else:
     #Med oppsampling
     m21, tau_21, r21, l21 = finn_forsinkelse_med_oppampling(sig2, sig1, fs, L=oppsamplingsfaktor, vindu=40)
     m31, tau_31, r31, l31 = finn_forsinkelse_med_oppampling(sig3, sig1, fs, L=oppsamplingsfaktor, vindu=40)
     m32, tau_32, r32, l32 = finn_forsinkelse_med_oppampling(sig3, sig2, fs, L=oppsamplingsfaktor, vindu=40)
 
-plotPulse = False
+plotPulse = True
 if plotPulse:
     plt.figure()
     plt.plot(t, sig1, label="sig1 (0 samples)")

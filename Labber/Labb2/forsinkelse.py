@@ -112,6 +112,23 @@ def finn_forsinkelse_med_oppampling(x, y, fs, L=16, vindu=20, bruk_abs=True, dc_
 
     return m_delay_frac, tau_frac, rxy, lags_m
 
+def finn_forsinkelse_test(x, y, fs, min_samples = 10, max_samples = 10):
+    r_xy = []
+    for delay in range(-min_samples, max_samples + 1):
+        if delay < 0:
+            shifted_y = np.concatenate((y[-delay:], np.zeros(-delay)))
+        elif delay > 0:
+            shifted_y = np.concatenate((np.zeros(delay), y[:-delay]))
+        else:
+            shifted_y = y
+
+        r = np.sum(x * shifted_y)
+        r_xy.append(r)
+
+        m_delay = np.max(r_xy)
+    return np.array(r_xy), m_delay, m_delay/fs 
+
+
 
 if __name__ == "__main__":
     # Mini-demo for å sanity-sjekke fortegn og verdi

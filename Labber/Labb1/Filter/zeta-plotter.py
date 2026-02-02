@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt 
 
-zeta_values = [0.1, 0.45, 0.5, 1.0]
+zeta_values = [0.1, 0.45, 0.5, 0.55, 1.0]
 f0 = 1000  # Natural frequency in Hz
 frequencies = np.logspace(1, 5, 1000)  # Frequencies from 10 Hz to 100 kHz  
 

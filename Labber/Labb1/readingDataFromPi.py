@@ -29,24 +29,26 @@ def converter(data): #Convert from counts to volts
     Vconv = (data / resulution) * C
     return Vconv
 
+#colorArray
+colorArray = ['royalblue', 'orange', 'green']
 
-
+#Plot each channel in its own subplot
+fig, axs = plt.subplots(channels, 1, sharex=True, figsize=(6, 6))
+if channels == 1:
+    axs = [axs]
 for i in range(channels):
-    #plt.plot(time_axis, converter(data[:, i]) + i*C, label=f'Channel {i+1}')
-    plt.plot(time_axis, converter(data[:, i]) + i*C, label=f'Channel {i+1}')
-    plt.gca().xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f"{x*1e3:g}"))
-
-# plt.axhline(y=C, linestyle='--', label="Max voltage, 3.3V")
-# plt.axhline(y=C/2, linestyle='--', label="Mid voltage, 1.65V", color='red')
-# plt.axhline(y=0, linestyle='--', label="Min voltage, 0V")
-#plt.plot(time_axis, data[:, 0], label='Channel 1')
-plt.xlim(0, rangePeriod)
-#plt.plot(time_axis, data[:, 1], label='Channel 2')
-#plt.plot(time_axis, data[:, 2], label='Channel 3')
-plt.xlabel("Time [ms]")
-plt.ylabel("Voltage [V]")
-plt.title("Data form ADC modules")
-plt.legend()
-plt.show()
-
-#3 subplots :)
+    axs[i].plot(time_axis, converter(data[:, i]), color=colorArray[i], label=f'Digital data fra ADC {i+1}')
+    axs[i].axhline(y=C, linestyle='--', label="Maks spenning, 3.3V", color='gray', alpha=0.6)
+    axs[i].axhline(y=C/2, linestyle='--', label="DC offset, 1.65V", color='red', alpha=0.6)
+    axs[i].axhline(y=0, linestyle='--', label="Min spenning, 0V", color='gray', alpha=0.6)
+    axs[i].xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f"{x*1e3:g}"))
+    axs[i].set_xlim(0, 0.005)
+    axs[i].set_ylim(-0.5, 3.7)
+    axs[i].set_ylabel("Voltage [V]")
+    axs[i].set_title(f"Data fra ADC {i+1}")
+    axs[i].legend()
+    axs[i].grid(True)
+    if i == channels - 1:
+        axs[i].set_xlabel("Time [ms]")
+plt.tight_layout()
+plt.show() 

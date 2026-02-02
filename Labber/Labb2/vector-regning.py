@@ -41,8 +41,8 @@ if __name__ == "__main__":
 
     t = np.arange(0, varighet, 1 / fs)
     m1 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
-    m2 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
-    m3 = sinus_med_pakke(t, frekvens, fs, delay_samples=10)
+    m2 = sinus_med_pakke(t, frekvens, fs, delay_samples=10)
+    m3 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
 
     n_31 = krysskorrelasjon_upscaled(m1, m3, fs, True)[0]
     n_21 = krysskorrelasjon_upscaled(m1, m2, fs, True)[0]

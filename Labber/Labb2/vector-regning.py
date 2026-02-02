@@ -1,90 +1,52 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from forsinkelse import finn_forsinkelse, finn_forsinkelse_med_oppampling, finn_forsinkelse_test
-from generateSineSignal import sinus_med_pakke
+from generateSineSignal import generer_sinus, sinus_med_pakke
+from finnForsinkelse import krysskorrelasjon, krysskorrelasjon_upscaled
 
-# Parametere
-frekvens = 50
-fs = 4000
-varighet = 1.0
+# Function below
 
-# Velg forsinkelser du vil simulere (samples)
-d21 = 10
-d31 = 10
-d32 = 0
-
-c = 343  #m/s
-
-# Tid
-t = np.arange(0, varighet, 1 / fs)
-
-# Tre signaler med forksjellige forsinkelser, kan byttes til ekte målinger
-sig1 = sinus_med_pakke(t, frekvens, fs, d21) #Ingen forsinkelse
-sig2 = sinus_med_pakke(t, frekvens, fs, d31) #Forsinkelse på d21 samples
-sig3 = sinus_med_pakke(t, frekvens, fs, d32) #Forsinkelse på d31 samples
-
-oppsamplet = False
-oppsamplingsfaktor = 16
-
-if not oppsamplet:
-    #Heltalls samples using finn_forsinkelse_test
-    r21 = finn_forsinkelse_test(sig2, sig1, fs)
-    r31 = finn_forsinkelse_test(sig3, sig1, fs)
-    r32 = finn_forsinkelse_test(sig3, sig2, fs)
+def find_theta(n_31, n_21, n_32):
+    """
+    Beregn vinkelen theta fra korrelasjonsverdier.
     
-    # m21, tau_21, r21, l21 = finn_forsinkelse(sig2, sig1, fs)
-    # m31, tau_31, r31, l31 = finn_forsinkelse(sig3, sig1, fs) 
-    # m32, tau_32, r32, l32 = finn_forsinkelse(sig3, sig2, fs)
-else:
-    #Med oppsampling
-    m21, tau_21, r21, l21 = finn_forsinkelse_med_oppampling(sig2, sig1, fs, L=oppsamplingsfaktor, vindu=40)
-    m31, tau_31, r31, l31 = finn_forsinkelse_med_oppampling(sig3, sig1, fs, L=oppsamplingsfaktor, vindu=40)
-    m32, tau_32, r32, l32 = finn_forsinkelse_med_oppampling(sig3, sig2, fs, L=oppsamplingsfaktor, vindu=40)
-
-plotPulse = True
-if plotPulse:
-    plt.figure()
-    plt.plot(t, sig1, label="sig1 (0 samples)")
-    plt.plot(t, sig2, label=f"sig2 ({d31} samples)", alpha=0.7)
-    plt.plot(t, sig3, label=f"sig3 ({d32} samples)", alpha=0.7)
-    plt.xlim(0.465, 0.535)
-    plt.title("Tre signaler med kjent forsinkelse")
-    plt.xlabel("Tid [s]")
-    plt.ylabel("Amplitude")
-    plt.grid(True)
-    plt.legend()
-    plt.show()
-
-tau_ij = [tau_21, tau_31, tau_32]
-n_ij = [tau/fs for tau in tau_ij]
-
-p1 = np.array([0.0, 0.0, 0.0])
-p2 = np.array([0.2, 0.0, 0.0])
-p3 = np.array([0.1, 0.1732, 0.0])
-
-# Vektorer mellom sensorer: x_ji = p_j - p_i
-x_21 = p2 - p1
-x_31 = p3 - p1
-x_32 = p3 - p2
-
-x_ij = [x_21, x_31, x_32]
-
-for i in range(3):
-    tau = tau_ij[i]
-    print(f"Tau = {tau}")
-
-#Finne vinklene (Bruker vi ikke posisjonene??)
-teller = (n_ij[1] + n_ij[0])
-nevner = (n_ij[1] - n_ij[0] + 2*n_ij[2])
-
-if nevner == 0:
-    print("Warning: nevner er null, kan ikke beregne vinkel theta.")
-    theta_deg = None
-else:
-    theta_rad = np.atan(np.sqrt(3) * (teller/nevner))
-    if nevner < 0:
-        theta_rad += np.pi #Legger til 180 grader hvis nevner er negativ
+    Basert på formel (II.29):
+        theta = atan(sqrt(3) * (n_31 + n_21) / (n_31 - n_21 + 2*n_32))
     
-    theta_deg = np.degrees(theta_rad)
-    print(f"Vinkel theta: {theta_deg:.2f}\u00b0")
+    Parametre:
+        n_31, n_21, n_32: korrelasjonsverdier (integers i samples)
+    
+    Returnerer:
+        theta: vinkelen i radianer
+    """
+    denominator = n_31 - n_21 + 2 * n_32
+    
+    if denominator == 0:
+        raise ValueError("Denominator er null, kan ikke beregne theta")
+    
+    argument = np.sqrt(3) * (n_31 + n_21) / denominator
+    theta_rad = np.arctan(argument)
+    
+    # Håndter tilfelle når x < 0 (når denominator < 0)
+    if denominator < 0:
+        theta_rad += np.pi
+    
+    return theta_rad, theta_rad * 180 / np.pi
+
+# Example usage
+if __name__ == "__main__":
+    fs = 10000  # Sampling frequency in Hz
+    varighet = 1.0  # Duration in seconds
+    frekvens = 500  # Frequency of the sine wave in Hz
+
+    t = np.arange(0, varighet, 1 / fs)
+    m1 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
+    m2 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
+    m3 = sinus_med_pakke(t, frekvens, fs, delay_samples=10)
+
+    n_31 = krysskorrelasjon_upscaled(m1, m3, fs, True)[0]
+    n_21 = krysskorrelasjon_upscaled(m1, m2, fs, True)[0]
+    n_32 = krysskorrelasjon_upscaled(m3, m2, fs, True)[0]
+
+    theta_rad, theta_deg = find_theta(n_31, n_21, n_32)
+    print(f"Vinkel theta: {theta_rad:.4f} radianer, {theta_deg:.2f} grader")

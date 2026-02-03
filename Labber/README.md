@@ -14,10 +14,10 @@ cd folderDirectory #enter a folder
 ssh evenlisa@evenlisa.local
 ```
 ### CyberDuck
-File protocol -  SFTP (SSH)
-Server -         evenlisa.local
-Username -       evenlisa
-Password -       123
+File protocol -  SFTP (SSH) <br>
+Server -         evenlisa.local <br>
+Username -       evenlisa <br>
+Password -       123 <br>
 
 
 ## Create folder

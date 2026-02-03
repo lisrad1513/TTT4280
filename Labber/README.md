@@ -1,5 +1,7 @@
 # Controlling RPi3
+
 Remember to connect both the PC and the RPi3 to the same wifi!
+
 ## Navigation in terminal
 ```bash
 ls #list all files and folders in current directory
@@ -30,7 +32,7 @@ mkdir nameOfFile
 ```bash
 nano nameOfFile
 ```
-Press `Ctrl+X` to confirm changes, and then `Y` to save the changes to the file
+Press `Ctrl + X` to confirm changes, and then `Y` to save the changes to the file
 
 ## Run a file
 ```bash
@@ -44,5 +46,6 @@ gcc adc_sampler.c - lpigpio - lpthread - lm -o adc_sampler
 ```
 ### Running the C-file
 ```bash
-sudo ./adc_sampler sampleAmount outputFile #Ex: sampleAmount = 31250
+sudo ./adc_sampler sampleAmount outputFile 
 ```
+For these labs, the `sampleAmount = 31250`

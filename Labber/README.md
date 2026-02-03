@@ -1,4 +1,5 @@
-# Styring av RPi3
+# Controlling RPi3
+Remember to connect both the PC and the RPi3 to the same wifi!
 ## Navigation in terminal
 ```bash
 ls #list all files and folders in current directory
@@ -11,7 +12,7 @@ cd folderDirectory #enter a folder
 ## Connect to RPi3 over ssh
 ### Terminal
 ```bash
-ssh evenlisa@evenlisa.local
+ssh evenlisa@evenlisa.local #password: 123
 ```
 ### CyberDuck
 File protocol -  SFTP (SSH) <br>

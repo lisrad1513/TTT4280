@@ -30,6 +30,7 @@ mkdir nameOfFile
 ```bash
 nano nameOfFile
 ```
+Press `Ctrl+X` to confirm changes, and then `Y` to save the changes to the file
 
 ## Run a file
 ```bash

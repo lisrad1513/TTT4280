@@ -34,17 +34,17 @@ nano nameOfFile
 ```
 Press `Ctrl + X` to confirm changes, and then `Y` to save the changes to the file
 
-## Run a file
+## Run a python file in the current directory
 ```bash
 python3 nameOfFile.py
 ```
 
-## Compiling and running C-file
-### Compiling the C-file
+## Compiling and running the C-file
+### Compiling the C-file in the current directory
 ```bash
 gcc adc_sampler.c - lpigpio - lpthread - lm -o adc_sampler
 ```
-### Running the C-file
+### Running the C-file in the current directory
 ```bash
 sudo ./adc_sampler sampleAmount outputFile 
 ```

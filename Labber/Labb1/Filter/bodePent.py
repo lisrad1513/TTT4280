@@ -67,8 +67,8 @@ plt.rcParams.update({
 fig, ax = plt.subplots()
 
 # Curves
-ax.plot(freq1, db1, label=r"0 $\Omega$")
-ax.plot(freq2, db2, label=r"15 $\Omega$")
+ax.plot(freq1, db1, label=r"Filter ved $R_F = 0 \Omega$")
+ax.plot(freq2, db2, label=r"Filter ved $R_F = 15 \Omega$")
 
 # Cutoff lines (keep them subtle)
 ax.axhline(db_cut, linestyle="--", linewidth=1.6, alpha=0.8, label="Knekkfrekvens")
@@ -81,13 +81,13 @@ ax.axvline(fc_15, linestyle="--", linewidth=1.6, alpha=0.8)
 #             xytext=(10, 6), textcoords="offset points",
 #             va="bottom", ha="left")
 
-ax.annotate(r"$f_c \approx 30.90$ Hz (0 $\Omega$)",
+ax.annotate(r"$f_{c_0} \approx 30.90$ Hz (0 $\Omega$)",
             xy=(fc_0, np.interp(fc_0, freq1, db1)),
             xytext=(40, 50), textcoords="offset points",
             arrowprops=dict(arrowstyle="->", lw=1.0),
             ha="left", va="top")
 
-ax.annotate(r"$f_c \approx 24.55$ Hz (15 $\Omega$)",
+ax.annotate(r"$f_{c_{15}} \approx 24.55$ Hz (15 $\Omega$)",
             xy=(fc_15, np.interp(fc_15, freq2, db2)),
             xytext=(-120, -50), textcoords="offset points",
             arrowprops=dict(arrowstyle="->", lw=1.0),

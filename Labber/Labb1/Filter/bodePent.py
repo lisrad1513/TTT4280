@@ -83,19 +83,20 @@ ax.axvline(fc_15, linestyle="--", linewidth=1.6, alpha=0.8)
 
 ax.annotate(r"$f_c \approx 30.90$ Hz (0 $\Omega$)",
             xy=(fc_0, np.interp(fc_0, freq1, db1)),
-            xytext=(20, -25), textcoords="offset points",
+            xytext=(40, 50), textcoords="offset points",
             arrowprops=dict(arrowstyle="->", lw=1.0),
             ha="left", va="top")
 
 ax.annotate(r"$f_c \approx 24.55$ Hz (15 $\Omega$)",
             xy=(fc_15, np.interp(fc_15, freq2, db2)),
-            xytext=(20, 25), textcoords="offset points",
+            xytext=(-120, -50), textcoords="offset points",
             arrowprops=dict(arrowstyle="->", lw=1.0),
             ha="left", va="bottom")
 
 # Axes formatting
 ax.set_xscale("log")
 ax.set_xlim(1, upperLimit)
+ax.set_ylim(-45, 12)
 
 ax.set_xlabel("Frekvens [Hz]")
 ax.set_ylabel("Demping [dB]")

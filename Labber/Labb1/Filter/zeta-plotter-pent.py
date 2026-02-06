@@ -57,13 +57,13 @@ for zeta in zeta_values:
     print(f"For zeta = {zeta}, R = {R:.2f} Ohms")
 
 # Reference lines
-ax.axhline(-3.0, linestyle="--", linewidth=1.6, alpha=0.8, label="Knekkfrekvens")
-ax.annotate(r"$-3$ dB", xy=(frequencies[0], -3.0), xytext=(10, 6),
-            textcoords="offset points", ha="left", va="bottom")
+ax.axhline(-3.0, linestyle="--", linewidth=1.6, alpha=0.8, label="Knekkfrekvens, -3 dB")
+# ax.annotate(r"$-3$ dB", xy=(frequencies[0], -3.0), xytext=(10, 6),
+#             textcoords="offset points", ha="left", va="bottom")
 
 # Axes formatting
 ax.set_xscale("log")
-ax.set_xlim(100, 10000)
+ax.set_xlim(10, 10000)
 ax.set_ylim(-30, 15)
 
 ax.set_xlabel("Frequency [Hz]")

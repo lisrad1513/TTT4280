@@ -85,8 +85,8 @@ mag_db2 = 20.0 * np.log10(mag2 + eps) #eps prevents log10(0)
 
 plt.figure()
 channel = 0
-plt.plot(freq1, mag_db1[:, channel], label=f"ADC {channel + 1} med filter")
 plt.plot(freq2, mag_db2[:, channel], label=f"ADC {channel + 1} uten filter", alpha=0.5)
+plt.plot(freq1, mag_db1[:, channel], label=f"ADC {channel + 1} med filter")
 
 #Control what frequency range is shown
 #0: show 0 to 2000 Hz
@@ -94,7 +94,7 @@ plt.plot(freq2, mag_db2[:, channel], label=f"ADC {channel + 1} uten filter", alp
 #2: zoom near targetFreq
 plotWholeSpectrum = 0 #Change this value to 0, 1, or 2
 if plotWholeSpectrum == 0:
-    plt.xlim(0, 3000)
+    plt.xlim(600, 2300)
 elif plotWholeSpectrum == 1:
     plt.xlim(0, fs1 / 2)
 else:
@@ -105,7 +105,7 @@ plt.xlabel("Frekvens [Hz]")
 plt.ylabel("Magnitude [dB]")
 plt.title("FFT Analyse av ADC Data")
 plt.axvline(x=targetFreq, linestyle='--', label=f"Målfrekvens, {targetFreq}Hz", color='red')
-plt.axvline(x=50, linestyle='--', label=f"50Hz mains", color='red', alpha=0.25)
+#plt.axvline(x=50, linestyle='--', label=f"50Hz mains", color='red', alpha=0.25)
 plt.grid(True)
 plt.legend()
 plt.show()

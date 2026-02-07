@@ -106,7 +106,7 @@ ax.annotate(
 ax.text(
     startCycle + 1.3 * oneCycle,
     y_bracket + 0.08 * y_span,
-    f"1 cycle = {oneCycle:.3f} µs",
+    f"1 sykel = {oneCycle:.3f} µs",
     ha="center",
     va="bottom"
 )

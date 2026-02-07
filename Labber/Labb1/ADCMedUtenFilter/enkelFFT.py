@@ -84,7 +84,7 @@ for ch in range(mag_db.shape[1]):
 #0: show 0 to 2000 Hz
 #1: show full available one sided range 0 to fs/2
 #2: zoom near targetFreq
-plotWholeSpectrum = 1 #Change this value to 0, 1, or 2
+plotWholeSpectrum = 0 #Change this value to 0, 1, or 2
 if plotWholeSpectrum == 0:
     plt.xlim(0, 3000)
 elif plotWholeSpectrum == 1:
@@ -97,7 +97,7 @@ plt.xlabel("Frekvens [Hz]")
 plt.ylabel("Magnitude [dB]")
 plt.title("FFT Analyse av ADC Data")
 plt.axvline(x=targetFreq, linestyle='--', label=f"Målfrekvens, {targetFreq}Hz", color='red')
-plt.axvline(x=50, linestyle='--', label=f"50Hz mains", color='red', alpha=0.25)
+#plt.axvline(x=50, linestyle='--', label=f"50Hz mains", color='red', alpha=0.25)
 plt.grid(True)
 plt.legend()
 plt.show()

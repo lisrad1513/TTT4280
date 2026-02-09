@@ -44,14 +44,18 @@ def SNR(signal, noise):
     Beregn Signal-to-Noise Ratio (SNR) i desibel (dB).
     
     Parametre:
-        signal: numpy array med signalverdier
-        noise: numpy array med støyverdier
+        signal: numpy array med signalverdier (volts)
+        noise: numpy array med støyverdier (volts)
     
     Returnerer:
         SNR i dB
+    
+    Merk: Effekt er proporsjonal med V², og siden vi tar forholdet mellom
+    signaleffekt og støyeffekt, kansellerer resistansen (R) ut.
     """
-    power_signal = np.mean(signal**2)
-    power_noise = np.mean(noise**2)
+    # Beregn gjennomsnittlig effekt (normalisert til R=1Ω)
+    power_signal = (signal) - np.mean(signal)  # Fjern DC-offset
+    power_noise = (noise) - np.mean(noise)  # Fjern DC-offset
     
     if power_noise == 0:
         raise ValueError("Støyens effekt er null, kan ikke beregne SNR")

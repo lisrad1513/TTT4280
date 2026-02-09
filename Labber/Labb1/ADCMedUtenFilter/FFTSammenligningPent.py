@@ -14,10 +14,10 @@ channels = 3
 channel = 0              # which ADC channel to compare
 targetFreq = 1000        # Hz
 
-windowFunction = "hann"  # 'none', 'hann', 'hamming', 'blackman', 'bartlett'
+windowFunction = "hamming"  # 'none', 'hann', 'hamming', 'blackman', 'bartlett'
 nfftChooser = True       # True: nfft = next pow2 above N
 
-plotWholeSpectrum = 1    # 0: 600..2300, 1: 0..fs/2, 2: zoom around target
+plotWholeSpectrum = 0   # 0: 600..2300, 1: 0..fs/2, 2: zoom around target
 
 # Files
 sample_period1, data1 = raspi_import(
@@ -91,8 +91,10 @@ if nfft > 1:
     mag2[1:-1, :] *= 2.0
 
 eps = 1e-12
-mag_db1 = 20.0 * np.log10(mag1 + eps)
-mag_db2 = 20.0 * np.log10(mag2 + eps)
+mag_norm1 = mag1 / (np.max(mag1[:, channel]) + eps)  # Normalize to max of mag1 for the selected channel
+mag_db1 = 10.0 * np.log10(mag_norm1 + eps)  #
+mag_norm2 = mag2 / (np.max(mag2[:, channel]) + eps)  # Normalize to max of mag2 for the selected channel
+mag_db2 = 10.0 * np.log10(mag_norm2 + eps)  #
 
 # -----------------------------
 # Pretty plotting (same style as your other figure)
@@ -144,10 +146,10 @@ ax.text(
 
 # Same arrows format
 if plotWholeSpectrum == 0:
-    textPos = (1500, 60)  # in data coords
-    start = (textPos[0], textPos[1] - 2.0)
+    textPos = (1500, 0)  # common start point in data coords
 
-    arrowPoints = [(1251, -4.8), (1500, -15), (1751, -6), (2000, 44)]
+    start = (textPos[0], textPos[1] - 2)  # tweak the -2 to taste
+    arrowPoints = [(1250, -31), (1500, -37), (1751, -33), (2000, -7)]
 
     ax.text(
         textPos[0], textPos[1],
@@ -186,6 +188,8 @@ if plotWholeSpectrum == 0:
     ax.legend(loc="upper left")
 else:
     ax.legend(loc="upper right")
+
+#ax.set_ylim(-60, 5)
 
 fig.tight_layout()
 plt.show()

@@ -12,21 +12,17 @@ from raspi_import import raspi_import
 # Settings
 # -----------------------------
 channels = 3
-freqIn = 1000  # Hz
+freqIn = 50  # Hz
 targetFreq = freqIn  # Hz
 
 # Choose input file
 sample_period, data = raspi_import(
-    "ELSYSS6/Sensor/Labber/Labb1/ADCMedUtenFilter/31250Samples1_65VOffset1_65V1000HzUtenFilter",
+    "ELSYSS6/Sensor/Labber/Labb1/50Hz/31250Samples1_65VOffset1_65V50Hz",
     channels
 )
-# sample_period, data = raspi_import(
-#     "ELSYSS6/Sensor/Labber/Labb1/ADCMedUtenFilter/31250Samples1_65VOffset1_65V1000Hz",
-#     channels
-# )
 
 # Window functions: 'none', 'hann', 'hamming', 'blackman', 'bartlett'
-windowFunction = "hamming"
+windowFunction = "hann"
 
 # Zero padding choice
 nfftChooser = True  # True: nfft = next power of 2 above N, False: nfft = N
@@ -103,16 +99,26 @@ plt.rcParams.update({
 
 fig, ax = plt.subplots()
 
-colors = ["royalblue", "darkorange", "seagreen", "crimson"]
+colors = ["seagreen", "darkorange", "royalblue", "crimson"]
 
 for ch in range(mag_db.shape[1]):
     ax.plot(freq, mag_db[:, ch], label=f"ADC {ch+1}", color=colors[ch % len(colors)])
 
 # Target frequency marker
-ax.axvline(targetFreq, linestyle="--", color=colors[3], linewidth=1.6, alpha=0.8)
+ax.axvline(targetFreq, linestyle="--", color=colors[3], linewidth=1.6, alpha=0.3)
 ax.text(
-    targetFreq + 50, 0.04,
-    f"Analog frekvens: {targetFreq} Hz",
+    targetFreq - 5, 0.04,
+    f"Input: {targetFreq}Hz",
+    transform=ax.get_xaxis_transform(),
+    ha="right",
+    va="top",
+    fontsize=10,
+    color=colors[3]
+)
+ax.axvline(targetFreq * 2, linestyle="--", color=colors[3], linewidth=1.6, alpha=0.3)
+ax.text(
+    targetFreq * 2 + 5, 0.04,
+    f"Støyfrekvens",
     transform=ax.get_xaxis_transform(),
     ha="left",
     va="top",
@@ -120,15 +126,17 @@ ax.text(
     color=colors[3]
 )
 
-textPos = (1500, 0)  # common start point in data coords
-start = (textPos[0], textPos[1] - 2)  # tweak the -2 to taste
-arrowPoints = [(1250, -31), (1500, -37), (1751, -33), (2000, -7)]
+SNR = 32.5  # dB, visually estimated from the plot
+textPos = (targetFreq + 55, -SNR/2)  # common start point in data coords
+arrowStart = (targetFreq, 0.2)  # common start point in data coords
+start = (arrowStart[0], arrowStart[1])  # tweak the -2 to taste
+arrowPoints = [(targetFreq * 2, -SNR)]
 
 # 1) Place the text (centered exactly at textPos)
 ax.text(
     textPos[0], textPos[1],
-    "Støy og overtone",
-    ha="center", va="center"
+    rf"$\Delta x \approx {SNR}$ dB",
+    ha="left", va="center"
 )
 
 # 2) Draw all arrows from the exact same start point
@@ -139,16 +147,25 @@ for tip in arrowPoints:
         arrowstyle="->",
         mutation_scale=15,     # arrow head size
         linewidth=1.6,
-        color="black"
+        color="black",
+        alpha=.8
     )
     arrow.set_clip_on(False)
     ax.add_patch(arrow)
 
+bucketStart = (targetFreq * 2, 0)
+bucketEnd = (targetFreq * 2, -SNR)
+ax.annotate(
+    "",  # no text here, just the bracket line
+    xy=(bucketStart[0], bucketStart[1]),
+    xytext=(bucketEnd[0], bucketEnd[1]),
+    arrowprops=dict(arrowstyle="|-|", lw=1.8, alpha=1)
+)
 
 
 # X limits
 if plotWholeSpectrum == 0:
-    ax.set_xlim(400, 2300)
+    ax.set_xlim(0, 300)
 elif plotWholeSpectrum == 1:
     ax.set_xlim(0, fs / 2.0)
 else:
@@ -156,10 +173,10 @@ else:
 
 ax.set_xlabel("Frekvens [Hz]")
 ax.set_ylabel("Magnitude [dB]")
-ax.set_title("FFT analyse av ADC data")
+ax.set_title("Grafisk SNR ADC data, med filtrering")
 
 ax.grid(True, which="both")
-ax.legend(loc="upper left")
+ax.legend(loc="upper right")
 
 # # Helpful info box
 # df = fs / nfft
@@ -177,7 +194,7 @@ ax.legend(loc="upper left")
 #     bbox=dict(boxstyle="round,pad=0.35", alpha=0.10, linewidth=0.8)
 # )
 
-ax.set_ylim(-60, 5)  # Adjust y-limits for better visibility of the spectrum
+ax.set_ylim(-75, 5)  # Adjust y-limits for better visibility of the spectrum
 
 fig.tight_layout()
 plt.show()

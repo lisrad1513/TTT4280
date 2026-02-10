@@ -1,0 +1,27 @@
+\begin{figure}[H]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{circuitikz}
+\draw  (5.25,14.75) rectangle  node {$\LARGE \text{MCP3201}$} (9,12.5);
+\node [font=\tiny] at (6,14.5) {$V_{DD}$};
+\draw [->, >=Stealth] (6,15.5) -- (6,14.75);
+\node [font=\tiny] at (6.75,14.5) {$CLK$};
+\node [font=\tiny] at (7.5,14.5) {$D_{out}$};
+\node [font=\tiny] at (8.25,14.5) {$\overline{CS}$};
+\node [font=\tiny] at (6,12.75) {$V_{REF}$};
+\node [font=\tiny] at (6.75,12.75) {$IN+$};
+\node [font=\tiny] at (7.5,12.75) {$IN-$};
+\node [font=\tiny] at (8.25,12.75) {$V_{SS}$};
+\draw [->, >=Stealth] (6,11.75) -- (6,12.5);
+\draw [->, >=Stealth] (6.75,15.5) -- (6.75,14.75);
+\draw [<-, >=Stealth] (7.5,15.5) -- (7.5,14.75);
+\draw [->, >=Stealth] (8.25,15.5) -- (8.25,14.75);
+
+\draw [->, >=Stealth] (8.25,11.75) -- (8.25,12.5);
+\draw [->, >=Stealth] (7.5,11.75) -- (7.5,12.5);
+\draw [->, >=Stealth] (6.75,11.75) -- (6.75,12.5);
+\end{circuitikz}
+}%
+\caption{Pinout-diagram for ADC-en MCP3201.}
+\label{block:ADC}
+\end{figure}

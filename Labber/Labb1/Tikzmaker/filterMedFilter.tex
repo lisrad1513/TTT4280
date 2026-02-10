@@ -1,0 +1,23 @@
+\begin{figure}[H]
+\centering
+\resizebox{1\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\draw (-5.25,16.25) to[short, -o] (-6.25,16.25) ;
+\node [font=\normalsize] at (-6.75,16.25) {$V_{DD}$};
+\draw (-5.5,16.25) to[curved capacitor,l={$C_1$}] (-5.5,15.25);
+\draw (-5.25,16.25) to[L,l={$L_1$} ] (-3.5,16.25);
+\draw (-1.5,16.25) to[curved capacitor,l={$C_2$}] (-1.5,15.25);
+\draw (-2,16.25) to[short] (0.5,16.25);
+\draw (0.75,16.25) to[C,l={$C_3$}] (0.75,15.25);
+\draw (0.5,16.25) to[short, -o] (2.5,16.25) ;
+\node [font=\normalsize] at (3.2,16.25) {$V_{DDD_F}$};
+\draw (-5.5,15.25) to (-5.5,15) node[ground]{};
+\draw (-1.5,15.25) to (-1.5,15) node[ground]{};
+\draw (0.75,15.25) to (0.75,15) node[ground]{};
+\draw [ color={rgb,255:red,0; green,86; blue,214} ](-3.5,16.25) to[european resistor,l={ \normalsize $R_F$}] (-2,16.25);
+\end{circuitikz}
+}%
+\caption{Lavpassfilteret med en motstand $R_f$ for å minimere resonanse toppen til filtret. $R_f$ er markert i blått.}
+\label{cir:filter_med_motstand}
+\end{figure}

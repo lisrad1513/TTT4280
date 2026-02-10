@@ -1,0 +1,30 @@
+\begin{figure}[!ht]
+\centering
+\resizebox{1\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\large]
+\draw  (-2.5,13.25) rectangle  node {\large Pi Wedge} (1.25,10.75);
+\draw (-1.25,10.75) to (-1.25,10) node[ground]{};
+\node [font=\normalsize] at (0,13) {G19};
+\node [font=\normalsize] at (-1.25,13) {G18};
+\node [font=\normalsize] at (-1.25,11) {GND};
+\node [font=\normalsize] at (0,11) {3V3};
+\node [font=\normalsize] at (0.8,12.75) {G12};
+\node [font=\normalsize] at (0.8,12) {G21};
+\node [font=\normalsize] at (0.8,11.25) {G27};
+
+\draw [short] (-1.25,13) -- (-1.25,13);
+\draw [short] (-1.25,13) -- (-1.25,13);
+\draw [->, >=Stealth] (-4.25,12) -- (-2.5,12)node[pos=0.5, fill=white]{RPi3};
+\draw [ color={rgb,255:red,255; green,38; blue,0}, ->, >=Stealth] (0,10.75) -- (0,9.5);
+\draw [ color={rgb,255:red,255; green,147; blue,0}, ->, >=Stealth] (5.75,12.75) -- (1.25,12.75)node[pos=0.5, fill=white]{Data fra ADC 1};
+\draw [ color={rgb,255:red,255; green,147; blue,0}, ->, >=Stealth] (5.75,12) -- (1.25,12)node[pos=0.5, fill=white]{Data fra ADC 2};
+\draw [ color={rgb,255:red,255; green,147; blue,0}, ->, >=Stealth] (5.75,11.25) -- (1.25,11.25)node[pos=0.5, fill=white]{Data fra ADC 3};
+%\draw [ color={rgb,255:red,255; green,147; blue,0}, ](4.75,11.25) to[short] (5,11.5);
+\draw [ color={rgb,255:red,148; green,33; blue,146}, ->, >=Stealth] (-1.25,13.25) -- (-1.25,14.25)node[pos=0.5, fill=white]{CS};
+\draw [ color={rgb,255:red,79; green,122; blue,40}, ->, >=Stealth] (0,13.25) -- (0,14.25)node[pos=0.5, fill=white]{CLK};
+\end{circuitikz}
+}%
+\caption{Pi Wedgen med relevante pins.}
+\label{fig:widget}
+\end{figure}

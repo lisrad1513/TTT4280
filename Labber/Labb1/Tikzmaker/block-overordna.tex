@@ -1,0 +1,19 @@
+\begin{figure}[H]
+\centering
+\resizebox{1\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\Large]
+\draw  (19,19.25) rectangle  node {\LARGE Raspberry Pi } (24,16.25);
+\draw  (11,19.25) rectangle  node {\LARGE PC} (16,16.25);
+\draw  (19,14.25) rectangle  node {\LARGE Pi Wedge} (24,11.25);
+\draw  (11,14.25) rectangle  node {\LARGE ADC-er} (16,11.25);
+\draw [<->, >=Stealth, dashed] (16,17.75) -- (19,17.75)node[pos=0.5, fill=white]{SSH};
+\draw [<->, >=Stealth] (21.5,14.25) -- (21.5,16.25);
+\draw [->, >=Stealth] (13.5,9.25) -- (13.5,11.25)node[pos=0.5, fill=white]{Analog Data};
+\draw [->, >=Stealth] (16,12.75) -- (19,12.75);
+\node [font=\Large] at (17.5,13.25) {Digital Data};
+\end{circuitikz}
+}%
+\caption{Blokkdiagram som viser overordnet systemarkitektur. Analoge signaler konverteres til digitale data i ADC-ene og overføres via Pi Wedge til RPi-en. PC-en kommuniserer med RPi-en over SSH.}
+\label{block:overordna}
+\end{figure}

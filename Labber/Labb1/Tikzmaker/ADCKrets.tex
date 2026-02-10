@@ -1,0 +1,43 @@
+\begin{figure}[H]
+\centering
+\resizebox{0.6\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\scriptsize]
+\draw  (5.25,14.75) rectangle  node {$\LARGE \text{MCP3201}$} (9,12.5);
+\node [font=\tiny] at (6,14.5) {$V_{DD}$};
+\node [font=\tiny] at (6.75,14.5) {$CLK$};
+\node [font=\tiny] at (7.5,14.5) {$D_{out}$};
+\node [font=\tiny] at (8.25,14.5) {$\overline{CS}$};
+\node [font=\tiny] at (6,12.75) {$V_{REF}$};
+\node [font=\tiny] at (6.75,12.75) {$IN+$};
+\node [font=\tiny] at (7.5,12.75) {$IN-$};
+\node [font=\tiny] at (8.25,12.75) {$V_{SS}$};
+\draw (6,14.75) to[short] (6,15.5);
+\draw (6,15.7) to[C,l={ \scriptsize $1 \mu F$}] (4.75,15.7);
+\draw (4.75,15.7) to (4.75,15.45) node[ground]{};
+\draw (6,11.75) to[short] (6,12.5);
+\draw (6,11.75) to[C,l={ \scriptsize $1 \mu F$}] (4.75,11.75);
+\draw (4.75,11.75) to (4.75,11.5) node[ground]{};
+\draw (6,15.5) to[short, -o] (6,16.25) ;
+\draw (6,11.75) to[short, -o] (6,11) ;
+\draw (8.25,12.5) to (8.25,11.5) node[ground]{};
+\draw (7.5,12.5) to[short] (7.5,11.75);
+\draw (7.5,11.75) to[short] (8.25,11.75);
+\node at (8.25,11.75) [circ] {};
+\node at (6,11.75) [circ] {};
+\node at (6,15.7) [circ] {};
+\draw (6.75,14.75) to[short, -o] (6.75,16.25) ;
+\draw (7.5,14.75) to[short, -o] (7.5,16.25) ;
+\draw (8.25,14.75) to[short, -o] (8.25,16.25) ;
+\draw (6.75,12.5) to[short, -o] (6.75,10.5) ;
+\node [font=\scriptsize] at (6,16.5) {$3V3$};
+\node [font=\scriptsize] at (6,10.75) {$3V3$};
+\node [font=\scriptsize] at (6.75,10.25) {$\text{Analog Data}$};
+\node [font=\scriptsize] at (6.75,16.5) {$G19$};
+\node [font=\scriptsize] at (8.25,16.5) {$G18$};
+\node [font=\scriptsize] at (7.5,16.5) {$GX$};
+\end{circuitikz}
+}%/
+\caption{MCP3201 med to avkoblingskondensatorer på 1$\micro F$.}
+\label{cir:ADC}
+\end{figure}

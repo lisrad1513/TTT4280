@@ -1,0 +1,22 @@
+\begin{figure}[H]
+\centering
+\resizebox{1\textwidth}{!}{%
+\begin{circuitikz}
+\tikzstyle{every node}=[font=\normalsize]
+\draw (-5.25,16.25) to[short, -o] (-6.25,16.25) ;
+\node [font=\normalsize] at (-6.75,16.25) {$V_{DD}$};
+\draw (-5.5,16.25) to[curved capacitor,l={$C_1$}] (-5.5,15.25);
+\draw (-5.25,16.25) to[L,l={$L_1$} ] (-3.5,16.25);
+\draw (-3,16.25) to[curved capacitor,l={$C_2$}] (-3,15.25);
+\draw (-3.5,16.25) to[short] (-1,16.25);
+\draw (-0.75,16.25) to[C,l={$C_3$}] (-0.75,15.25);
+\draw (-1,16.25) to[short, -o] (1,16.25) ;
+\node [font=\normalsize] at (1.6,16.25) {$V_{DD_F}$};
+\draw (-5.5,15.25) to (-5.5,15) node[ground]{};
+\draw (-3,15.25) to (-3,15) node[ground]{};
+\draw (-0.75,15.25) to (-0.75,15) node[ground]{};
+\end{circuitikz}
+}%
+\caption{Et lavpassfilter med to polare og en upolar kondensator, samt en spole. Dette skaper et andre ordesns filter.}
+\label{cir:filter_uten_motstand}
+\end{figure}

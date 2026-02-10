@@ -34,27 +34,28 @@ def converter(data): #Convert from counts to volts
 #colorArray
 colorArray = ['royalblue', 'orange', 'green']
 
+plotChannel = 1
+
 #Plot each channel in its own subplot
-fig, axs = plt.subplots(channels, 1, sharex=True, figsize=(8, 6))
-if channels == 1:
+fig, axs = plt.subplots(plotChannel, 1, sharex=True, figsize=(8, 6))
+if plotChannel == 1:
     axs = [axs]
-for i in range(channels):
+
+for i in range(plotChannel):
     axs[i].plot(time_axis, converter(data[:, i]), color=colorArray[i], label=f'Digital data fra ADC {i+1}')
-    axs[i].axhline(y=C, linestyle='--', label="Maks spenning, 3.3V", color='gray', alpha=0.6)
-    axs[i].axhline(y=C/2, linestyle='--', label="DC offset, 1.65V", color='black', alpha=0.6)
-    axs[i].axhline(y=0, linestyle='--', label="Min spenning, 0V", color='gray', alpha=0.6)
     axs[i].xaxis.set_major_formatter(ticker.FuncFormatter(lambda x, _: f"{x*1e3:g}"))
     #axs[i].set_xlim(0, 0.005)
-    #axs[i].set_xlim(0.00085, 0.00106)
-    #axs[i].set_ylim(3.0, 3.3)
+    axs[i].set_xlim(0.000855, 0.00107)
+    axs[i].set_ylim(3.0, 3.3)
     #axs[i].set_ylim(-0.5, 3.7)
     axs[i].set_ylabel("Voltage [V]")
     axs[i].set_title(f"Data fra ADC {i+1}")
     #axs[i].legend(bbox_to_anchor=(0., 1.05, 1., .102), loc='upper left', mode="expand", borderaxespad=0.)
-    axs[i].legend(bbox_to_anchor=(1.05, 0.8), loc='upper left', borderaxespad=0.)
+    axs[i].legend(loc='upper left')
+    #Increase text size of all text in plot
     #axs[i].legend()
     axs[i].grid(True)
-    if i == channels - 1:
+    if i == plotChannel - 1:
         axs[i].set_xlabel("Time [ms]")
 plt.tight_layout()
 plt.show() 

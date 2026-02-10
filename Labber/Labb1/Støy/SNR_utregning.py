@@ -54,8 +54,8 @@ def SNR(signal, noise):
     signaleffekt og støyeffekt, kansellerer resistansen (R) ut.
     """
     # Beregn gjennomsnittlig effekt (normalisert til R=1Ω)
-    power_signal = (signal) - np.mean(signal)  # Fjern DC-offset
-    power_noise = (noise) - np.mean(noise)  # Fjern DC-offset
+    power_signal = np.mean(signal)  # Fjern DC-offset
+    power_noise = np.mean(noise)  # Fjern DC-offset
     
     if power_noise == 0:
         raise ValueError("Støyens effekt er null, kan ikke beregne SNR")

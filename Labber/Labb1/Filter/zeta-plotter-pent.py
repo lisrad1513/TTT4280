@@ -29,8 +29,9 @@ plt.close("all")
 plt.rcParams.update({
     "figure.figsize": (10, 5.6),
     "figure.dpi": 120,
-    "axes.titlesize": 14,
-    "axes.labelsize": 12,
+    "axes.titlesize": 20,
+    "axes.labelsize": 15,
+    "font.size": 15,
     "grid.alpha": 0.25,
     "grid.linestyle": ":",
     "grid.linewidth": 0.8,

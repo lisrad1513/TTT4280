@@ -13,10 +13,11 @@ periodsCount = 10 #How many periods you want to display
 periodTime = 1/freqIn  #seconds
 rangePeriod = periodsCount * periodTime 
 
-sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/KlappForskyv', channels)
+#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/KlappForskyv', channels)
 #sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/Knipps', channels)
 #sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/Sinus1kHz', channels)
-#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/SinusSameGain500Hz', channels)
+#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Maalinger/Gamle målinger/Sinus1kHz', channels)
+sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Maalinger/lisaKlapp', channels)
 
 print(data.shape)
 

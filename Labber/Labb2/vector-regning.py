@@ -44,9 +44,13 @@ if __name__ == "__main__":
     m2 = sinus_med_pakke(t, frekvens, fs, delay_samples=10)
     m3 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
 
-    n_31 = krysskorrelasjon_upscaled(m1, m3, fs, True)[0]
-    n_21 = krysskorrelasjon_upscaled(m1, m2, fs, True)[0]
-    n_32 = krysskorrelasjon_upscaled(m3, m2, fs, True)[0]
+    # n_31 = krysskorrelasjon_upscaled(m1, m3, fs, True)[0]
+    # n_21 = krysskorrelasjon_upscaled(m1, m2, fs, True)[0]
+    # n_32 = krysskorrelasjon_upscaled(m3, m2, fs, True)[0]
+
+    n_31 = krysskorrelasjon(m1, m3, fs, True)[0]
+    n_21 = krysskorrelasjon(m1, m2, fs, True)[0]
+    n_32 = krysskorrelasjon(m3, m2, fs, True)[0]
 
     theta_rad, theta_deg = find_theta(n_31, n_21, n_32)
     print(f"Vinkel theta: {theta_rad:.4f} radianer, {theta_deg:.2f} grader")

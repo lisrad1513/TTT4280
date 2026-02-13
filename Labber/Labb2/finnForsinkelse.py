@@ -91,7 +91,63 @@ def krysskorrelasjon_upscaled(x, y, fs, upsample_factor=16, remove_dc=True, max_
     
     return lag_samples, lag_time_s, r_xy, lags
     
+def autokorrelasjon(x, fs, remove_dc=True, max_lag=None, normalize=False):
+    """
+    Beregn autokorrelasjon r_xx(m) = sum_n x[n] * x[n+m].
+    Setter remove_dc=True for å fjerne DC-offset (trekker fra middelverdi).
 
+    Parametre:
+        x: 1D-array med signal
+        fs: samplefrekvens [Hz]
+        remove_dc: fjern DC-offset (trekker fra middelverdi)
+        max_lag: maks |m| som skal sjekkes (i samples). None = alle.
+        normalize: hvis True, normaliser slik at r_xx(0) = 1
+
+    Returnerer:
+        lag_samples: m-verdien (i samples) der |r_xx(m)| er størst
+        lag_time_s: tidsforsinkelse i sekunder (m / fs)
+        r_xx: selve autokorrelasjonen
+        lags: m-verdier som hører til r_xx
+    """
+    x = np.asarray(x)
+    if x.ndim != 1:
+        raise ValueError("x må være 1D-array")
+    if fs <= 0:
+        raise ValueError("fs må være > 0")
+
+    if remove_dc:
+        x = x - np.mean(x)
+
+    if max_lag is not None:
+        if max_lag < 0:
+            raise ValueError("max_lag må være >= 0")
+        max_lag = int(max_lag)
+
+    # Autokorrelasjon via numpy.correlate
+    r_xx = np.correlate(x, x, mode="full")
+    lags = np.arange(-(len(x) - 1), len(x))
+
+    if max_lag is not None:
+        lag_mask = (lags >= -max_lag) & (lags <= max_lag)
+        lags_eval = lags[lag_mask]
+        r_xx_eval = r_xx[lag_mask]
+    else:
+        lags_eval = lags
+        r_xx_eval = r_xx
+
+    if normalize:
+        r0_index = np.where(lags_eval == 0)[0]
+        if r0_index.size == 0:
+            raise RuntimeError("Fant ikke lag = 0, dette skal ikke skje")
+        r0 = r_xx_eval[int(r0_index[0])]
+        if r0 != 0:
+            r_xx_eval = r_xx_eval / r0
+
+    max_index = int(np.argmax(np.abs(r_xx_eval)))
+    lag_samples = int(lags_eval[max_index])
+    lag_time_s = lag_samples / fs
+
+    return lag_samples, lag_time_s, r_xx_eval, lags_eval
 
 def finn_forsinkelse_test():
     """
@@ -103,19 +159,23 @@ def finn_forsinkelse_test():
     delay_samples = 7  # samples
 
     t = np.arange(0, varighet, 1 / fs)
-    x = generer_sinus(t, frekvens, 0, fs)
-    y = generer_sinus(t, frekvens, 10, fs)
-    # x = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
-    # y = sinus_med_pakke(t, frekvens, fs, delay_samples=delay_samples)
+    #x = generer_sinus(t, frekvens, 0, fs)
+    #y = generer_sinus(t, frekvens, 10, fs)
+    x = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
+    y = sinus_med_pakke(t, frekvens, fs, delay_samples=delay_samples)
 
     lag_samples, lag_time_s, r_xy, lags = krysskorrelasjon(x, y, fs, True)
+
+    #autokorrelasjon test
+    lag_samples, lag_time_s, r_xx, lags = autokorrelasjon(x, fs, True)
 
     print(f"Forventet forsinkelse: {delay_samples} samples")
     print(f"Funnet forsinkelse:    {lag_samples} samples ({lag_time_s} sekunder)")
 	
     plt.figure()
-    plt.plot(lags, r_xy)
-    plt.title("Krysskorrelasjon r_xy(m)")
+    plt.plot(lags, r_xy, label="Krysskorrelasjon")
+    plt.plot(lags, r_xx, label="Autokorrelasjon")
+    plt.title("Krysskorrelasjon og Autokorrelasjon")
     plt.axvline(x=delay_samples, color="green", linestyle="--", label=f"Forventet: {delay_samples} samples")
     plt.axvline(x=lag_samples, color="red", linestyle="--", label=f"Funnet: {lag_samples} samples")
     plt.legend()

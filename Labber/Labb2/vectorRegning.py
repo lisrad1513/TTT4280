@@ -19,19 +19,23 @@ def find_theta(n_31, n_21, n_32):
     Returnerer:
         theta: vinkelen i radianer
     """
+
+    print(f"n_31: {n_31}, n_21: {n_21}, n_32: {n_32}")
+
     denominator = n_31 - n_21 + 2 * n_32
-    
+    numeratror = np.sqrt(3) * (n_31 + n_21)
+
     if denominator == 0:
-        raise ValueError("Denominator er null, kan ikke beregne theta")
+        raise ValueError("Denominator i theta-formelen er 0, kan ikke beregne theta.")
     
-    argument = np.sqrt(3) * (n_31 + n_21) / denominator
-    theta_rad = np.arctan(argument)
-    
-    # Håndter tilfelle når x < 0 (når denominator < 0)
+    theta_rad = np.arctan2(numeratror, denominator)
     if denominator < 0:
-        theta_rad += np.pi
-    
-    return theta_rad, theta_rad * 180 / np.pi
+        theta_rad += np.pi  # Juster for riktig kvadrant
+
+    theta_deg = np.degrees(theta_rad)
+
+    return theta_rad, theta_deg
+
 
 # Example usage
 if __name__ == "__main__":

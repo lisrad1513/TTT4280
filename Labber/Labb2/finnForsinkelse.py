@@ -2,6 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from generateSineSignal import sinus_med_pakke, generer_sinus
 
+def finn_forsinkelse(x, y, fs):
+    x = x - np.mean(x)
+    y = y - np.mean(y)
+
+    r_xy = np.correlate(x, y, mode='full')
+    lags = np.arange(-len(x)+1, len(x))
+    sample_max = lags[np.argmax(np.abs(r_xy))]
+
+    delta_t = sample_max / fs
+    return sample_max, delta_t, r_xy, lags
 
 def krysskorrelasjon(x, y, fs, remove_dc=True, max_lag=None):
     """

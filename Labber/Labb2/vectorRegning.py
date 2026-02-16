@@ -20,17 +20,19 @@ def find_theta(n_31, n_21, n_32):
         theta: vinkelen i radianer
     """
 
-    print(f"n_31: {n_31}, n_21: {n_21}, n_32: {n_32}")
+    #print(f"n_31: {n_31}, n_21: {n_21}, n_32: {n_32}")
 
     denominator = n_31 - n_21 + 2 * n_32
     numeratror = np.sqrt(3) * (n_31 + n_21)
 
     if denominator == 0:
+        #return 0, 0
         raise ValueError("Denominator i theta-formelen er 0, kan ikke beregne theta.")
     
-    theta_rad = np.arctan2(numeratror, denominator)
-    if denominator < 0:
-        theta_rad += np.pi  # Juster for riktig kvadrant
+    theta_rad = np.arctan2(denominator, numeratror)
+    # arctan2 tar seg av kvadrantproblematikken, så ingen ekstra justering er nødvendig.
+    # if denominator < 0:
+    #     theta_rad += np.pi  # Juster for riktig kvadrant
 
     theta_deg = np.degrees(theta_rad)
 
@@ -41,12 +43,12 @@ def find_theta(n_31, n_21, n_32):
 if __name__ == "__main__":
     fs = 10000  # Sampling frequency in Hz
     varighet = 1.0  # Duration in seconds
-    frekvens = 500  # Frequency of the sine wave in Hz
+    frekvens = 1000  # Frequency of the sine wave in Hz
 
     t = np.arange(0, varighet, 1 / fs)
     m1 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
-    m2 = sinus_med_pakke(t, frekvens, fs, delay_samples=10)
-    m3 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
+    m2 = sinus_med_pakke(t, frekvens, fs, delay_samples=0)
+    m3 = sinus_med_pakke(t, frekvens, fs, delay_samples=4)
 
     # n_31 = krysskorrelasjon_upscaled(m1, m3, fs, True)[0]
     # n_21 = krysskorrelasjon_upscaled(m1, m2, fs, True)[0]

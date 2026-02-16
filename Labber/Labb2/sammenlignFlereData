@@ -1,0 +1,57 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import csv
+
+import sys
+from pathlib import Path
+from finnForsinkelse import krysskorrelasjon, krysskorrelasjon_upscaled, autokorrelasjon, finn_forsinkelse
+from vectorRegning import find_theta
+
+from raspi_import import raspi_import
+
+channels = 3
+freqIn = 1000   #1 kHz
+fs = 31250   #Sampling frequency
+
+antallPos = 3 #How many periods you want to display
+antallMaalinger = 5 
+
+angle1 = []
+angle2 = []
+angle3 = []
+
+for i in range(antallPos):
+    print(f"Posisjon {(i + 1)}:")
+    for j in range(antallMaalinger):
+        sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Maalinger/KonsekventTesting/Pos{(i+1)}/chirpPosition{i+1}_{j+1}', channels)
+
+        #Fjerne dei første 300 datapunkter
+        num_points_to_remove = 5000
+        data = data[num_points_to_remove:]
+
+        #print(data)
+
+        t = np.arange(0, data.shape[0] * sample_period, sample_period)
+        m3 = data[:, 2]
+        m2 = data[:, 1]
+        m1 = data[:, 0]
+
+        n_31, t_31, r_31, lags31 = finn_forsinkelse(m3, m1, fs)
+        n_21, t_21, r_21, lags21 = finn_forsinkelse(m2, m1, fs)
+        n_32, t_32, r_32, lags32 = finn_forsinkelse(m3, m2, fs)
+
+        theta_rad, theta_deg = find_theta(n_31, n_21, n_32)
+        print(f" Måling {j}:  theta={theta_deg:.2f}°")
+        if i == 0:
+            angle1.append(theta_deg)
+        elif i == 1:
+            angle2.append(theta_deg)
+        elif i == 2:
+            angle3.append(theta_deg)
+    print("\n")
+
+#STD of each position
+print(f"STD for posisjon 1: {np.std(angle1):.2f}°")
+print(f"STD for posisjon 2: {np.std(angle2):.2f}°")
+print(f"STD for posisjon 3: {np.std(angle3):.2f}°")
+

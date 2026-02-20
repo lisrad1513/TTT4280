@@ -1,1 +1,0 @@
-##Regne ut fingerdybde probet 

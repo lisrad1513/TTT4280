@@ -22,4 +22,7 @@ Then, navigate to the correct folder
 
 ```bash
 
+ffmpeg -i video.h264 -c copy video.mp4
 ```
+
+

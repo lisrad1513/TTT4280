@@ -74,7 +74,7 @@ if nfft > 1:
 
 #Convert magnitude to decibels.
 eps = 1e-12
-mag_db = 20.0 * np.log10(mag + eps) #eps prevents log10(0)
+mag_db = 10.0 * np.log10(mag + eps) #eps prevents log10(0)
 
 plt.figure()
 for ch in range(mag_db.shape[1]):

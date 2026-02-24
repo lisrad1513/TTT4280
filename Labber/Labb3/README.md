@@ -29,6 +29,13 @@ ffmpeg -i video.h264 -c copy video.mp4
 ### Recording video and converting directly on the RPi3
 Navigate to the proper folder, and run both of the following commands in the terminal on the RPi3.
 
+First, install FFMPEG to the RPi3
+```bash
+sudo apt install ffmpeg
+```
+
+Then, run this in the wanted file
+
 ```bash
 python3 record_video_upgrade.py videoer/testopptak
 ffmpeg -framerate 60 -i videoer/testopptak.h264 -c copy videoer/testopptak.mp4

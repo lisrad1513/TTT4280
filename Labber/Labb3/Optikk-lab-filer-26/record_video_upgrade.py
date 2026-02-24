@@ -42,8 +42,8 @@ camera = Picamera2()
 
 # The resolution can be changed, but the frame rate has to be supported by the
 # current resolution.
-camera.resolution = (1640, 922)
-camera.framerate = 40
+camera.resolution = (1920, 1080) #Changed for lab 3, originally (1640, 922)
+camera.framerate = 60 #Changed for lab 3, originally 40
 
 # Set a low ISO. Adjusts the sensitivity of the camera. 0 means auto. 10 most probably is the same
 # as 100, as picamera doc says it can only be set to 100, 200, 300, ..., 800.
@@ -77,7 +77,7 @@ camera.awb_gains = (1, 2)
 # and inspiration for other properties to adjust.
 
 # how long we want to record
-recordTime = 5 #originally 30
+recordTime = 30 #originally 30
 
 # If we were not running the Pi headless, starting the preview would show us
 # what the camera was capturing.  Now, since we run it headless, it allows the

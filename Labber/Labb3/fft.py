@@ -28,7 +28,7 @@ def plot_fft(data_path, fps = 40, lowerbound = 0, upperbound = 6, normalizeChann
 
     #Filtering the signal 
     lowCut = 0.5  #Hz
-    highCut = 4   #Hz
+    highCut = 3   #Hz
     b, a = butter(3, [lowCut/(fps/2), highCut/(fps/2)], btype='band')
     red_channel = filtfilt(b, a, red_channel)
     green_channel = filtfilt(b, a, green_channel)
@@ -39,14 +39,19 @@ def plot_fft(data_path, fps = 40, lowerbound = 0, upperbound = 6, normalizeChann
     #     green_channel = green_channel / np.max(np.abs(green_channel))
     #     blue_channel = blue_channel / np.max(np.abs(blue_channel))
     
-    #FFT analysis
+    #FFT analysis, with windowing and zero padding to get better frequency resolution. The FFT is computed for each color channel separately, and the magnitude spectrum is plotted. The dominant frequency in the area of interest (0.5-4 Hz) is identified for each channel and printed out.
     N = len(red_channel)
-    fs = fps  # Sampling frequency in Hz (frames per second)
-    freqs = np.fft.rfftfreq(N, 1/fs)
-    red_fft = np.abs(np.fft.rfft(red_channel)) / N
-    green_fft = np.abs(np.fft.rfft(green_channel)) / N
-    blue_fft = np.abs(np.fft.rfft(blue_channel)) / N
+    zeroPaddingFactor = 16  #Increase this to get better frequency resolution, but it also increases computation time. A value of 4 means that the FFT will be computed on a signal that is 4 times longer than the original, with zero padding.
+    nfft = zeroPaddingFactor * N
+    red_channel = np.concatenate((red_channel, np.zeros(nfft - N)))
+    green_channel = np.concatenate((green_channel, np.zeros(nfft - N)))
+    blue_channel = np.concatenate((blue_channel, np.zeros(nfft - N)))
 
+    #window = np.hanning(N)  #Hanning window to reduce spectral leakage
+    red_fft = np.fft.rfft(red_channel)
+    green_fft = np.fft.rfft(green_channel)
+    blue_fft = np.fft.rfft(blue_channel)
+    freqs = np.fft.rfftfreq(nfft, d=1/fps)
 
     areaOfInterest = (freqs >= lowerbound) & (freqs <= upperbound)
     freqs = freqs[areaOfInterest]

@@ -42,8 +42,8 @@ camera = Picamera2()
 
 # The resolution can be changed, but the frame rate has to be supported by the
 # current resolution.
-camera.resolution = (1920, 1080) #Changed for lab 3, originally (1640, 922)
-camera.framerate = 60 #Changed for lab 3, originally 40
+camera.resolution = (640, 480)  #Changed for lab 3, originally (1640, 922)
+camera.framerate = 103.33 #Changed for lab 3, originally 40
 
 # Set a low ISO. Adjusts the sensitivity of the camera. 0 means auto. 10 most probably is the same
 # as 100, as picamera doc says it can only be set to 100, 200, 300, ..., 800.

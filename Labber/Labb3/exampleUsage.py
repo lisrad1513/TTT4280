@@ -3,27 +3,32 @@ from plotValues import plot_values
 from fft import plot_fft
 from snr import snr_from_file_all
 
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/fingerLisa2.mp4"
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/fingerEven1.mp4"
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/robusthetstest/hvilepulsVsHøypuls/fingerEven70bpm.mp4"
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/robusthetstest/hvilepulsVsHøypuls/fingerEven114bpm.mp4"
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/robusthetstest/temperatur/fingerEven76bpmVarm.mp4"
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/robusthetstest/temperatur/fingerEven74bpmKald.mp4"
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/robusthetstest/andreKroppsdeler/oyreflippEven77bpm.mp4"
-video_file = "ELSYSS6/Sensor/Labber/Labb3/videofiler/robusthetstest/lys/fingerEven70bpmMoerkt.mp4"
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/robusthetstest/andreKroppsdeler/handleddEven73bpmIphone.mp4"
+#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/fingerEven77bpmTest2.mp4"
+
+#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/panne/panneEven70bpm.mp4"
+
+#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/pulsVari/fingerEven73bpmLav.mp4"
+#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/pulsVari/fingerEven100bpmHoy.mp4"
+
+#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/temp/fingerEven66bpmVarm.mp4"
+#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/temp/fingerEven74bpmKald.mp4"
+
+video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/avstand/fingerEven68bpm10cm.mp4"
+
 output_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/outputFiler/colorChannels.txt"
 defineNewROI = True
 
-removeFirstNSeconds = 5 # Remove first N seconds of signal
-removeLastNSeconds = 5  # Remove last N seconds of signal
+fps = 30
+
+removeFirstNSeconds = 0 # Remove first N seconds of signal
+removeLastNSeconds = 0  # Remove last N seconds of signal
 
 if defineNewROI:
     run_video_roi_extraction(video_file, output_file, removeFirstNSeconds, removeLastNSeconds)
 
 plot_values(output_file)
 
-peak_red, peak_green, peak_blue = plot_fft(output_file, 30, .5, 6, True)
+peak_red, peak_green, peak_blue = plot_fft(output_file, fps, .5, 6, True)
 
 print("-----------------------------------")
 print("Puls i Hz og bpm for hver kanal:")

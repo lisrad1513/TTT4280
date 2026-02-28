@@ -4,7 +4,75 @@ from scipy.signal import butter, filtfilt
 import os
 
 #FFT analysis of each color channel, to find the dominant frequencies in the signal
-def plot_fft(data_path, fps = 40, lowerbound = 0, upperbound = 6, normalizeChannelsSeparately=True):
+def plot_fft(data_path, fps = 30, lowerbound = 0, upperbound = 6, normalizeChannelsSeparately=True):
+    data = np.genfromtxt(data_path, delimiter=" ", skip_header=1)
+    #print(data)  # Print the loaded data to verify its structure
+    if data.ndim != 2 or data.shape[1] < 3:
+        print(f"Error: Data shape is incorrect. Expected (n, 3), got {data.shape}")
+        exit()
+
+    red_channel = data[:, 0]
+    green_channel = data[:, 1]
+    blue_channel = data[:, 2]
+
+    #Filter
+    def bandpass_filter(signal, fs, lowcut=0.5, highcut=3, order=4):
+        nyquist = 0.5 * fs
+        low = lowcut / nyquist
+        high = highcut / nyquist
+        b, a = butter(order, [low, high], btype='band')
+        return filtfilt(b, a, signal)
+    
+    red_channel = bandpass_filter(red_channel, fps)
+    green_channel = bandpass_filter(green_channel, fps)
+    blue_channel = bandpass_filter(blue_channel, fps)
+
+    #Number of samples
+    N = len(red_channel)
+    #Sampling frequency    fs = fps
+    #Sampling period     T = 1.0 / fps
+    fs = fps
+    T = 1.0 / fs
+
+    #FFT, with zero padding to next power of 2 for better frequency resolution, and a hamming window to reduce spectral leakage. The FFT is computed for each color channel separately, and the magnitude spectrum is plotted. The dominant frequency in the area of interest (0.5-4 Hz) is identified for each channel and printed out.
+    N_padded = 2 ** int(np.ceil(np.log2(N)))
+    # Apply Hamming window to reduce spectral leakage
+    window = np.hamming(N)
+    red_channel = red_channel * window
+    green_channel = green_channel * window
+    blue_channel = blue_channel * window
+
+    freqs = np.fft.rfftfreq(N_padded, d=T)
+    red_fft = np.fft.rfft(red_channel, n=N_padded)
+    green_fft = np.fft.rfft(green_channel, n=N_padded)
+    blue_fft = np.fft.rfft(blue_channel, n=N_padded)
+
+    red_magnitude = np.abs(red_fft) / N_padded
+    green_magnitude = np.abs(green_fft) / N_padded
+    blue_magnitude = np.abs(blue_fft) / N_padded
+
+    #Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(freqs, red_magnitude, label='Red Channel', color='red', alpha=0.5)
+    plt.plot(freqs, green_magnitude, label='Green Channel', color='green')
+    plt.plot(freqs, blue_magnitude, label='Blue Channel', color='blue', alpha=0.5)
+    plt.title('Magnitude Spectrum of Color Channels')
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Magnitude')
+    plt.xlim(lowerbound, upperbound) #Focus on frequencies up to 6 Hz, which is relevant for heart rate analysis
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+    #Find the peak frequency in each channel
+    peak_freq_red = freqs[np.argmax(red_magnitude)]
+    peak_freq_green = freqs[np.argmax(green_magnitude)]
+    peak_freq_blue = freqs[np.argmax(blue_magnitude)]
+
+    return peak_freq_red, peak_freq_green, peak_freq_blue
+
+
+def oldFFT(data_path, fps = 40, lowerbound = 0, upperbound = 6, normalizeChannelsSeparately=True):
     data = np.genfromtxt(data_path, delimiter=" ", skip_header=1)
     print(data)  # Print the loaded data to verify its structure
     if data.ndim != 2 or data.shape[1] < 3:
@@ -63,22 +131,7 @@ def plot_fft(data_path, fps = 40, lowerbound = 0, upperbound = 6, normalizeChann
     peak_freq_green = freqs[np.argmax(green_magnitude)]
     peak_freq_blue = freqs[np.argmax(blue_magnitude)]
 
-    #Plotting
-    plt.figure(figsize=(10, 6))
-    plt.plot(freqs, red_magnitude, label='Red Channel', color='red', alpha=0.5)
-    plt.plot(freqs, green_magnitude, label='Green Channel', color='green')
-    plt.plot(freqs, blue_magnitude, label='Blue Channel', color='blue', alpha=0.5)
-    plt.title('Magnitude Spectrum of Color Channels')
-    plt.xlabel('Frequency (Hz)')
-    plt.ylabel('Magnitude')
-    plt.xlim(lowerbound, upperbound) #Focus on frequencies up to 6 Hz, which is relevant for heart rate analysis
-    plt.legend()
-    plt.grid()
-    plt.show()
-
-
     return peak_freq_red, peak_freq_green, peak_freq_blue
-
 
 #example usage:
 if __name__ == "__main__":

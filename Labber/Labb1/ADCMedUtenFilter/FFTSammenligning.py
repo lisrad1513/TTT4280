@@ -9,7 +9,8 @@ from raspi_import import raspi_import
 channels = 3
 
 sample_period1, data1 = raspi_import(f'ELSYSS6/Sensor/Labber/Labb1/1000Hz/31250Samples1_65VOffset1_65V1000Hz', channels)
-sample_period2, data2 = raspi_import("ELSYSS6/Sensor/Labber/Labb1/ADCMedUtenFilter/31250Samples1_65VOffset1_65V1000HzUtenFilter", channels)
+#sample_period2, data2 = raspi_import("ELSYSS6/Sensor/Labber/Labb1/ADCMedUtenFilter/31250Samples1_65VOffset1_65V1000HzUtenFilter", channels)
+sample_period2, data2 = raspi_import("ELSYSS6/Sensor/Labber/Labb1/kretskortTest/kretskortTest-1kHz", channels)
 
 targetFreq = 1000  #Hz
 

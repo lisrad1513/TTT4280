@@ -26,10 +26,11 @@ def counts_to_volts(counts):
 # -----------------------------
 # Load data
 # -----------------------------
-sample_period, data = raspi_import(
-    f"ELSYSS6/Sensor/Labber/Labb1/{freqIn}Hz/31250Samples1_65VOffset1_65V{freqIn}Hz",
-    channels
-)
+# sample_period, data = raspi_import(
+#     f"ELSYSS6/Sensor/Labber/Labb1/{freqIn}Hz/31250Samples1_65VOffset1_65V{freqIn}Hz",
+#     channels
+# )
+#sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb1/kretskortTest/kretskortTest-1kHz", channels)
 
 N_total = data.shape[0]
 fs = 1.0 / sample_period

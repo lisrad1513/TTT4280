@@ -20,10 +20,9 @@ targetFreq = freqIn  # Hz
 #     "ELSYSS6/Sensor/Labber/Labb1/ADCMedUtenFilter/31250Samples1_65VOffset1_65V1000HzUtenFilter",
 #     channels
 # )
-sample_period, data = raspi_import(
-    "ELSYSS6/Sensor/Labber/Labb1/ADCMedUtenFilter/31250Samples1_65VOffset1_65V1000Hz",
-    channels
-)
+#sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb1/ADCMedUtenFilter/31250Samples1_65VOffset1_65V1000Hz", channels)
+sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb1/kretskortTest/kretskortTest-1kHz", channels)
+
 # Window functions: 'none', 'hann', 'hamming', 'blackman', 'bartlett'
 windowFunction = "hamming"
 

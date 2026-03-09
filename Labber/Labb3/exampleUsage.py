@@ -13,7 +13,7 @@ from snr import snr_from_file_all
 #video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/temp/fingerEven66bpmVarm.mp4"
 #video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/temp/fingerEven74bpmKald.mp4"
 
-video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/avstand/fingerEven68bpm10cm.mp4"
+#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/avstand/fingerEven68bpm10cm.mp4"
 
 output_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/outputFiler/colorChannels.txt"
 defineNewROI = True

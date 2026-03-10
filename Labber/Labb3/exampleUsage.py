@@ -5,7 +5,7 @@ from snr import snr_from_file_all
 
 #video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/fingerEven77bpmTest2.mp4"
 
-#video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/panne/panneEven70bpm.mp4"
+video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/panne/panneEven70bpm.mp4"
 
 #video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/pulsVari/fingerEven73bpmLav.mp4"
 #video_file = "/Users/evenfinnoy/Documents/Skule/VSCODE/ELSYSS6/Sensor/Labber/Labb3/videofiler/heimeTesting/robusthetstester/pulsVari/fingerEven100bpmHoy.mp4"

@@ -62,7 +62,6 @@ print(f"Knekkfrekvens for Q-kanalen: {round(freq2_low, 2)} Hz (nedre), {round(fr
 plt.xlabel("Frekvens [Hz]")
 plt.ylabel("dB")
 plt.title("Frekevensrespons til Forsterkeren")
-#plt.xlim(0.2*10**6, 3*10**6)
 plt.xlim(1, 10000)
 plt.xscale('log')
 plt.ylim(15,28)

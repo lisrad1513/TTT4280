@@ -3,19 +3,23 @@ import matplotlib.pyplot as plt
 import csv
 
 from complexFourierTransform import complex_fourier_transform
+from speedConversion import convert_doppler_shift_to_speed
 
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from raspi_import import raspi_import
 
+f_0 = 24.13e9  # Radarens frekvens i Hz
+c = 299792458  # Lysets hastighet i m/s
+waveLength = c / f_0  # Radarens bølgelengde i meter
 
 channels = 3
 #freqIn = 50    #50 Hz
 freqIn = 1000   #1 kHz
 
-#sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/minimum/bilLow2", channels)
-sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/high/bilHigh3", channels)
+sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/minimum/bilLow2", channels)
+#sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/high/bilHigh3", channels)
 #sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/reverse_max/bilReverse3", channels)
 
 # header = []
@@ -36,8 +40,8 @@ sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/high/
 # ch2 = [(p[2]) for p in data1]
 
 
-ch1 = data[:, 2]  # I-kanal
-ch2 = data[:, 1]  # Q-kanal
+ch1 = data[1:, 2]  # I-kanal
+ch2 = data[1:, 1]  # Q-kanal
 
 plt.xlabel("Tid [s]")
 plt.ylabel("Spenning [V]")
@@ -48,7 +52,13 @@ plt.grid(which='both', linestyle='--', linewidth=0.5, alpha=0.7)
 plt.legend()
 plt.show()
 
-frequencies_shifted, spectrum, doppler_shift = complex_fourier_transform(ch1, ch2, sample_period)
+frequencies_shifted, spectrum, doppler = complex_fourier_transform(ch1, ch2, sample_period)
+
+f_D = np.max(frequencies_shifted[np.where(spectrum == np.max(spectrum))])  # Doppler-frekvens i Hz
+
+print(f"Doppler-frekvens: {f_D:.2f} Hz")
+speed = convert_doppler_shift_to_speed(f_D, waveLength, c, f_0)
+print(f"Estimert hastighet: {speed:.2f} m/s")
 
 plt.xlabel("Frekvens [Hz]")
 plt.ylabel("Magnitude")

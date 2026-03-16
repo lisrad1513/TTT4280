@@ -1,7 +1,17 @@
 import numpy as np
 from scipy import signal
 
-def complex_fourier_transform(i_signal, q_signal, sample_period, use_window=True, remove_dc=True):
+import numpy as np
+
+def complex_fourier_transform(
+    i_signal,
+    q_signal,
+    sample_period,
+    cut_seconds_start=0.0,
+    cut_seconds_end=0.0,
+    use_window=True,
+    remove_dc=True
+):
     """
     Perform a complex Fourier transform on I and Q signals and return
     the Doppler spectrum in Hz.
@@ -10,6 +20,8 @@ def complex_fourier_transform(i_signal, q_signal, sample_period, use_window=True
         i_signal: In-phase signal array
         q_signal: Quadrature signal array
         sample_period: Sampling period in seconds
+        cut_seconds_start: Number of seconds to remove from the start
+        cut_seconds_end: Number of seconds to remove from the end
         use_window: Apply Hann window if True
         remove_dc: Remove mean value if True
 
@@ -27,6 +39,32 @@ def complex_fourier_transform(i_signal, q_signal, sample_period, use_window=True
         raise ValueError("q_signal is a scalar, not an array.")
     if len(i_signal) != len(q_signal):
         raise ValueError("i_signal and q_signal must have the same length")
+    if sample_period <= 0:
+        raise ValueError("sample_period must be positive.")
+    if cut_seconds_start < 0 or cut_seconds_end < 0:
+        raise ValueError("cut_seconds_start and cut_seconds_end must be non-negative.")
+
+    # Sampling frequency
+    fs = 1 / sample_period
+
+    # Convert cut times to sample indices
+    start_samples = int(round(cut_seconds_start * fs))
+    end_samples = int(round(cut_seconds_end * fs))
+
+    # Check that enough samples remain
+    total_samples = len(i_signal)
+    if start_samples + end_samples >= total_samples:
+        raise ValueError(
+            "cut_seconds_start + cut_seconds_end removes all or more than all samples."
+        )
+
+    # Cut signals
+    if end_samples == 0:
+        i_signal = i_signal[start_samples:]
+        q_signal = q_signal[start_samples:]
+    else:
+        i_signal = i_signal[start_samples:-end_samples]
+        q_signal = q_signal[start_samples:-end_samples]
 
     if remove_dc:
         i_signal = i_signal - np.mean(i_signal)

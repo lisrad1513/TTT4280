@@ -42,7 +42,7 @@ python3 nameOfFile.py
 ## Compiling and running the C-file
 ### Compiling the C-file in the current directory
 ```bash
-gcc adc_sampler.c - lpigpio - lpthread - lm -o adc_sampler
+gcc adc_sampler.c -lpigpio -lpthread -lm -o adc_sampler
 ```
 ### Running the C-file in the current directory
 ```bash

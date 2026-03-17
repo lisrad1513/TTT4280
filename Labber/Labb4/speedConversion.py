@@ -1,6 +1,6 @@
 import numpy as np
 
-def convert_doppler_shift_to_speed(f_D, wavelength, c, f_0):
+def convert_doppler_shift_to_speed(f_D, f_0):
     """
     Convert Doppler shift to speed.
 
@@ -13,11 +13,22 @@ def convert_doppler_shift_to_speed(f_D, wavelength, c, f_0):
     Returns:
         Speed in m/s
     """
-    print(f"Doppler shift: {f_D:.2f} Hz")
-    print(f"Wavelength: {wavelength:.2e} m")
-    print(f"Speed of light: {c:.2e} m/s")
-    print(f"Radar frequency: {f_0:.2e} Hz")
+    c = 299792458  # Lysets hastighet i m/s
 
     speed = (f_D * c) / (2 * f_0)
 
+    return speed
+
+def convert_distance_and_time_to_speed(distance, time):
+    """
+    Convert distance and time to speed.
+
+    Args:
+        distance: Distance traveled in meters
+        time: Time taken in seconds
+
+    Returns:
+        Speed in m/s
+    """
+    speed = distance / time if time != 0 else 0
     return speed

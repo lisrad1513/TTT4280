@@ -1,0 +1,13 @@
+Test, filePath, cutFirst, cutLast, filter_lower, filter_upper, distance, time
+BilLow1,ELSYSS6/Sensor/Labber/Labb4/speed_test/minimum/bilLow1, 0.5, 2, 20, 0, 3.7, 10.60
+BilLow2,ELSYSS6/Sensor/Labber/Labb4/speed_test/minimum/bilLow2, 0.5, 2.5, 20, 0, 3.7, 7.18
+BilLow3,ELSYSS6/Sensor/Labber/Labb4/speed_test/minimum/bilLow3, 0.5, 0, 20, 0, 3.7, 06.58
+BilLow4,ELSYSS6/Sensor/Labber/Labb4/speed_test/minimum/bilLow4, 0.5, 1.5, 20, 0, 3.7, 07.34
+BilHigh1,ELSYSS6/Sensor/Labber/Labb4/speed_test/high/bilHigh1, 0.5, 1, 20, 0, 3.7, 01.75
+BilHigh2,ELSYSS6/Sensor/Labber/Labb4/speed_test/high/bilHigh2, 0.5, 0.5, 20, 0, 3.7, 01.58
+BilHigh3,ELSYSS6/Sensor/Labber/Labb4/speed_test/high/bilHigh3, 0.5, 1, 30, 0, 3.7, 01.46
+BilHigh4,ELSYSS6/Sensor/Labber/Labb4/speed_test/high/bilHigh4, 1, 0, 30, 0, 3.7, 01.64
+BilReverse1,ELSYSS6/Sensor/Labber/Labb4/speed_test/reverse_max/bilReverse1, 0.5, 0, 30, 0, 3.7, 01.73
+BilReverse2,ELSYSS6/Sensor/Labber/Labb4/speed_test/reverse_max/bilReverse2, 0.5, 0, 40, 0, 3.7, 01.76
+BilReverse3,ELSYSS6/Sensor/Labber/Labb4/speed_test/reverse_max/bilReverse3, 0.5, 0, 30, 0, 3.7, 01.70
+BilReverse4,ELSYSS6/Sensor/Labber/Labb4/speed_test/reverse_max/bilReverse4, 0.5, 1, 30, 0, 3.7, 02.56

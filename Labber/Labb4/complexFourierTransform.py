@@ -1,16 +1,18 @@
 import numpy as np
-from scipy import signal
+from scipy.signal import butter, filtfilt
 
-import numpy as np
 
 def complex_fourier_transform(
     i_signal,
     q_signal,
     sample_period,
-    cut_seconds_start=0.0,
-    cut_seconds_end=0.0,
     use_window=True,
-    remove_dc=True
+    remove_dc=True,
+    apply_filter=False,
+    filter_type="bandpass",
+    lowcut=None,
+    highcut=None,
+    filter_order=4
 ):
     """
     Perform a complex Fourier transform on I and Q signals and return
@@ -24,6 +26,12 @@ def complex_fourier_transform(
         cut_seconds_end: Number of seconds to remove from the end
         use_window: Apply Hann window if True
         remove_dc: Remove mean value if True
+
+        apply_filter: Apply Butterworth filter if True
+        filter_type: "lowpass", "highpass", "bandpass", or "bandstop"
+        lowcut: Lower cutoff frequency in Hz
+        highcut: Upper cutoff frequency in Hz
+        filter_order: Butterworth filter order
 
     Returns:
         frequencies_shifted: Frequency axis in Hz
@@ -41,34 +49,53 @@ def complex_fourier_transform(
         raise ValueError("i_signal and q_signal must have the same length")
     if sample_period <= 0:
         raise ValueError("sample_period must be positive.")
-    if cut_seconds_start < 0 or cut_seconds_end < 0:
-        raise ValueError("cut_seconds_start and cut_seconds_end must be non-negative.")
 
     # Sampling frequency
     fs = 1 / sample_period
+    nyquist = fs / 2
 
-    # Convert cut times to sample indices
-    start_samples = int(round(cut_seconds_start * fs))
-    end_samples = int(round(cut_seconds_end * fs))
+    # Optional filtering
+    if apply_filter:
+        if filter_type not in ["lowpass", "highpass", "bandpass", "bandstop"]:
+            raise ValueError(
+                "filter_type must be 'lowpass', 'highpass', 'bandpass', or 'bandstop'."
+            )
 
-    # Check that enough samples remain
-    total_samples = len(i_signal)
-    if start_samples + end_samples >= total_samples:
-        raise ValueError(
-            "cut_seconds_start + cut_seconds_end removes all or more than all samples."
-        )
+        if filter_order <= 0:
+            raise ValueError("filter_order must be a positive integer.")
 
-    # Cut signals
-    if end_samples == 0:
-        i_signal = i_signal[start_samples:]
-        q_signal = q_signal[start_samples:]
-    else:
-        i_signal = i_signal[start_samples:-end_samples]
-        q_signal = q_signal[start_samples:-end_samples]
+        if filter_type in ["lowpass", "highpass"]:
+            cutoff = highcut if filter_type == "lowpass" else lowcut
 
-    if remove_dc:
-        i_signal = i_signal - np.mean(i_signal)
-        q_signal = q_signal - np.mean(q_signal)
+            if cutoff is None:
+                raise ValueError(
+                    f"{filter_type} requires {'highcut' if filter_type == 'lowpass' else 'lowcut'} to be set."
+                )
+            if not (0 < cutoff < nyquist):
+                raise ValueError(
+                    f"Cutoff frequency must satisfy 0 < cutoff < Nyquist ({nyquist:.3f} Hz)."
+                )
+
+            wn = cutoff / nyquist
+            b, a = butter(filter_order, wn, btype="low")
+
+            if filter_type == "highpass":
+                b, a = butter(filter_order, wn, btype="high")
+
+        else:
+            if lowcut is None or highcut is None:
+                raise ValueError(f"{filter_type} requires both lowcut and highcut.")
+            if not (0 < lowcut < highcut < nyquist):
+                raise ValueError(
+                    f"Cutoffs must satisfy 0 < lowcut < highcut < Nyquist ({nyquist:.3f} Hz)."
+                )
+
+            wn = [lowcut / nyquist, highcut / nyquist]
+            btype = "bandpass" if filter_type == "bandpass" else "bandstop"
+            b, a = butter(filter_order, wn, btype=btype)
+
+        i_signal = filtfilt(b, a, i_signal)
+        q_signal = filtfilt(b, a, q_signal)
 
     complex_signal = i_signal + 1j * q_signal
 
@@ -83,6 +110,8 @@ def complex_fourier_transform(
     frequencies_shifted = np.fft.fftshift(frequencies)
 
     spectrum = np.abs(fft_shifted)
+    db_spectrum = 10 * np.log10(spectrum + 1e-12)  # Add small value to avoid log(0)
+    db_spectrum = db_spectrum - np.max(db_spectrum)  # Normalize to max at 0 dB
     doppler_shift = frequencies_shifted
 
-    return frequencies_shifted, spectrum, doppler_shift
+    return frequencies_shifted, spectrum, db_spectrum, doppler_shift

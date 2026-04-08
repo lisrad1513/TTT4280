@@ -14,7 +14,7 @@ channels = 3
 
 #sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/minimum/bilLow4", channels)
 #sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/high/bilHigh4", channels)
-sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/reverse_max/bilReverse4", channels)
+sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb4/speed_test/reverse_max/bilReverse3", channels)
 
 
 sr = 31250  # Samplingsfrekvens i Hz
@@ -61,21 +61,21 @@ plt.grid(which='both', linestyle='--', linewidth=0.5, alpha=0.7)
 plt.legend()
 plt.show()
 
-frequencies_shifted, spectrum, db_spectrum, doppler = complex_fourier_transform(ch1, ch2, sample_period, True, True, True, "highpass",30, 0, 4)
+# frequencies_shifted, spectrum, db_spectrum, doppler = complex_fourier_transform(ch1, ch2, sample_period, True, True, True, "highpass",30, 0, 4)
 
-f_D = np.max(frequencies_shifted[np.where(spectrum == np.max(spectrum))])  # Doppler-frekvens i Hz
+# f_D = np.max(frequencies_shifted[np.where(spectrum == np.max(spectrum))])  # Doppler-frekvens i Hz
 
-print(f"Doppler-frekvens: {f_D:.2f} Hz")
-speed = convert_doppler_shift_to_speed(f_D, f_0)
-print(f"Estimert hastighet: {speed:.2f} m/s")
+# print(f"Doppler-frekvens: {f_D:.2f} Hz")
+# speed = convert_doppler_shift_to_speed(f_D, f_0)
+# print(f"Estimert hastighet: {speed:.2f} m/s")
 
-plt.xlabel("Frekvens [Hz]")
-plt.ylabel("Magnitude [dB]")
-plt.title("Doppler-spektrum")
-plt.plot(frequencies_shifted, spectrum, label='Doppler-spektrum')
-#plt.plot(frequencies_shifted, db_spectrum, label='Doppler-spektrum')
-#plt.plot(frequencies_shifted, 10 * np.log10(spectrum), label='Doppler-spektrum')
-plt.grid(which='both', linestyle='--', linewidth=0.5, alpha=0.7)
-plt.xlim(-np.abs(f_D*1.5), np.abs(f_D*1.5))  # Juster x-aksen for å fokusere på relevante frekvensområder
-#plt.ylim(0, np.max(spectrum) * 1.1)  # Juster y-aksen for å vise hele spekteret
-plt.show()
+# plt.xlabel("Frekvens [Hz]")
+# plt.ylabel("Magnitude [dB]")
+# plt.title("Doppler-spektrum")
+# plt.plot(frequencies_shifted, spectrum, label='Doppler-spektrum')
+# #plt.plot(frequencies_shifted, db_spectrum, label='Doppler-spektrum')
+# #plt.plot(frequencies_shifted, 10 * np.log10(spectrum), label='Doppler-spektrum')
+# plt.grid(which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+# plt.xlim(-np.abs(f_D*1.5), np.abs(f_D*1.5))  # Juster x-aksen for å fokusere på relevante frekvensområder
+# #plt.ylim(0, np.max(spectrum) * 1.1)  # Juster y-aksen for å vise hele spekteret
+# plt.show()

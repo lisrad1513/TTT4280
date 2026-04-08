@@ -4,7 +4,7 @@ import matplotlib.ticker as ticker
 
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from raspi_import import raspi_import
 
 channels = 3
@@ -15,11 +15,10 @@ periodsCount = 10 #How many periods you want to display
 periodTime = 1/freqIn  #seconds
 rangePeriod = periodsCount * periodTime 
 
-#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/KlappForskyv', channels)
-#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/Knipps', channels)
-#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Målinger/Sinus1kHz', channels)
-#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Maalinger/Gamle målinger/Sinus1kHz', channels)
-sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/Maalinger/lisaKlappCa60Deg', channels)
+sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/endeligLabb2Maalinger/test/testChannels1', channels)
+#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/endeligLabb2Maalinger/konsekventTesting/pos1_degMin120_4', channels)
+#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/endeligLabb2Maalinger/konsekventTesting/pos1_degMin60_4', channels)
+#sample_period, data = raspi_import(f'ELSYSS6/Sensor/Labber/Labb2/endeligLabb2Maalinger/konsekventTesting/pos1_degPos60_4', channels)
 
 print(data.shape)
 

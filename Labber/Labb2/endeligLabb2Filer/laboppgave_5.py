@@ -45,11 +45,10 @@ d = np.sqrt(3) * a
 
 # Nominelle vinkler og tilhørende filnavn-prefiks
 VINKLER = [
-    (-120, 'pos1_degMin120'),
-    ( -60, 'pos1_degMin60'),
-    (  60, 'pos1_degPos60'),
+    (-120, 'pos1_degMin120', 4),
+    ( -60, 'pos1_degMin60',  3),   # Måling 4 er ugyldig (0°), utelatt
+    (  60, 'pos1_degPos60',  4),
 ]
-N_MAALINGER = 4   # Antall gjentatte målinger per vinkel
 
 
 # ---------------------------------------------------------------------------
@@ -97,9 +96,9 @@ print(f"{'Nominell':>10}  {'Maaling':>8}  {'n_21':>5}  {'n_31':>5}  "
       f"{'n_32':>5}  {'Estimert [deg]':>15}")
 print("=" * 65)
 
-for nom_deg, prefiks in VINKLER:
+for nom_deg, prefiks, n_maalinger in VINKLER:
     thetas = []
-    for i in range(1, N_MAALINGER + 1):
+    for i in range(1, n_maalinger + 1):
         filsti = BASE / f'{prefiks}_{i}'
         theta, n21, n31, n32, fs = estimer_fra_fil(filsti)
         thetas.append(theta)

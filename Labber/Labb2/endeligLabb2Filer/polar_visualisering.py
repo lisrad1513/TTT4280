@@ -33,11 +33,10 @@ a          = 0.05
 d          = np.sqrt(3) * a
 
 VINKLER = [
-    (-120, 'pos1_degMin120', 'tab:blue'),
-    ( -60, 'pos1_degMin60',  'tab:orange'),
-    (  60, 'pos1_degPos60',  'tab:green'),
+    (-120, 'pos1_degMin120', 'tab:blue',   4),
+    ( -60, 'pos1_degMin60',  'tab:orange', 3),   # Måling 4 er ugyldig (0°), utelatt
+    (  60, 'pos1_degPos60',  'tab:green',  4),
 ]
-N_MAALINGER = 4
 
 
 # ---------------------------------------------------------------------------
@@ -70,8 +69,8 @@ def estimer_fra_fil(path):
 # Samle målinger
 # ---------------------------------------------------------------------------
 resultater = {}
-for nom_deg, prefiks, farge in VINKLER:
-    thetas = [estimer_fra_fil(BASE / f'{prefiks}_{i}') for i in range(1, N_MAALINGER + 1)]
+for nom_deg, prefiks, farge, n_maalinger in VINKLER:
+    thetas = [estimer_fra_fil(BASE / f'{prefiks}_{i}') for i in range(1, n_maalinger + 1)]
     thetas = np.array(thetas)
     resultater[nom_deg] = {
         'thetas': thetas,
@@ -142,7 +141,7 @@ legend_elements = [
                          f"std={np.degrees(res['std']):.1f}°")
     for nom_deg, res in resultater.items()
 ]
-ax1.legend(handles=legend_elements, loc='lower center',
+ax1.legend(handles=legend_elements, loc='center',
            bbox_to_anchor=(0.5, -0.12), fontsize=9)
 
 

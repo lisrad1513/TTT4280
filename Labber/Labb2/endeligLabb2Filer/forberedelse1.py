@@ -164,6 +164,12 @@ if __name__ == '__main__':
                    title='Eks. 3 – Krysskorrelasjon (støy)')
     axes[2, 1].legend(); axes[2, 1].grid(True)
 
+    # Subplot-etiketter
+    labels = ['(a)', '(b)', '(c)', '(d)', '(e)', '(f)']
+    for ax, label in zip(axes.flat, labels):
+        ax.text(0.02, 0.97, label, transform=ax.transAxes,
+                fontsize=12, fontweight='bold', va='top')
+
     plt.suptitle('Forberedelsesoppgave 1: Krysskorrelasjon for å finne effektiv forsinkelse',
                  fontsize=13)
     plt.tight_layout()

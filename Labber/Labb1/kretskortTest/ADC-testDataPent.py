@@ -24,9 +24,9 @@ def counts_to_volts(counts):
     return (counts / resolution) * Vref
 
 #sample_period, data = raspi_import(f"ELSYSS6/Sensor/Labber/Labb1/{freqIn}Hz/31250Samples1_65VOffset1_65V{freqIn}Hz", channels)
-#sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb1/kretskortTest/kretskortTest-1kHz", channels)
+sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb1/kretskortTest/kretskortTest-1kHz", channels)
 
-sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb1/kretskortTest/kretskortTest-utenPaadrag", channels)
+#sample_period, data = raspi_import("ELSYSS6/Sensor/Labber/Labb1/kretskortTest/kretskortTest-utenPaadrag", channels)
 
 N_total = data.shape[0]
 fs = 1.0 / sample_period
@@ -120,6 +120,11 @@ for i in range(channels):
     #)
 
 axs[-1].set_xlabel("Time [ms]")
+
+# Subplot-etiketter
+for ax, label in zip(axs, ['(a)', '(b)', '(c)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
 
 # Limits
 axs[0].set_xlim(t_start_ms, t_end_ms)

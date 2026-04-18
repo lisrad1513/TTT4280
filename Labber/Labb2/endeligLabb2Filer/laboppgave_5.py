@@ -180,6 +180,11 @@ lines2, labels2 = ax2.get_legend_handles_labels()
 axes[1].legend(lines1 + lines2, labels1 + labels2, fontsize=9)
 axes[1].grid(True, axis='y')
 
+# Subplot-etiketter
+for ax, label in zip(axes, ['(a)', '(b)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
+
 plt.suptitle('Laboppgave 5 – Systematisk variasjon av innfallsvinkel', fontsize=13)
 plt.tight_layout()
 plt.show()

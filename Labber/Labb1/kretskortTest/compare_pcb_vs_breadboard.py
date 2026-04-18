@@ -168,6 +168,12 @@ for ch in range(CHANNELS):
     ax.set_title(f"{CH_LABELS[ch]} — Tidsdomene ({PERIODS} perioder @ {FREQ_IN} Hz)")
     ax.legend(loc="upper right"); ax.grid(True)
 axs1[-1].set_xlabel("Tid [ms]")
+
+# Subplot-etiketter
+for ax, label in zip(axs1, ['(a)', '(b)', '(c)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
+
 fig1.suptitle("Tidsdomene: Breadboard vs PCB", fontsize=13, y=0.995)
 fig1.tight_layout()
 
@@ -217,6 +223,12 @@ for ch in range(CHANNELS):
 
 axs2[-1].set_xlabel("Frekvens [Hz]")
 axs2[0].set_xlim(0, FMAX_PLOT)
+
+# Subplot-etiketter
+for ax, label in zip(axs2, ['(a)', '(b)', '(c)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
+
 fig2.suptitle(f"dBFS FFT: Breadboard vs PCB  —  0 dBFS = {V_FS_PEAK:.2f} V (VREF/2)",
               fontsize=13, y=0.995)
 fig2.tight_layout()

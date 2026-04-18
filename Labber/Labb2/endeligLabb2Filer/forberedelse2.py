@@ -144,6 +144,11 @@ axes[1].set(xlabel='Estimert alpha [grader]', ylabel='n_max [sampler]',
             yticks=[2, 4])
 axes[1].legend(); axes[1].grid(True)
 
+# Subplot-etiketter
+for ax, label in zip(axes, ['(a)', '(b)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
+
 plt.suptitle('Forberedelsesoppgave 2', fontsize=13)
 plt.tight_layout()
 plt.show()

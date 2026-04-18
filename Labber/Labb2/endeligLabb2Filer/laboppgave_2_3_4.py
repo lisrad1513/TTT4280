@@ -146,6 +146,12 @@ for ax, signal, label, color in zip(
     ax.grid(True)
 
 axes2[-1].set_xlabel('Tid [ms]')
+
+# Subplot-etiketter
+for ax, label in zip(axes2, ['(a)', '(b)', '(c)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
+
 fig2.suptitle('Oppgave 2 – Tre mikrofonsignaler (DC fjernet)', fontsize=13)
 plt.tight_layout()
 
@@ -196,6 +202,11 @@ axes3[1, 1].axvline(n_auto, color='r', linestyle='--', linewidth=1.5,
 axes3[1, 1].set(xlabel='Lag m [sampler]', ylabel='r(m)',
                 title='Autokorrelasjon – sensor 1')
 axes3[1, 1].legend(fontsize=8); axes3[1, 1].grid(True)
+
+# Subplot-etiketter
+for ax, label in zip(axes3.flat, ['(a)', '(b)', '(c)', '(d)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
 
 fig3.suptitle('Oppgave 3 – Krysskorrelasjoner og autokorrelasjon', fontsize=13)
 plt.tight_layout()
@@ -261,6 +272,11 @@ axes4[1].set(xlabel='Faktisk vinkel [grader]', ylabel='Feil [grader]',
              xlim=[-180, 180])
 axes4[1].axhline(0, color='k', linewidth=0.6)
 axes4[1].grid(True)
+
+# Subplot-etiketter
+for ax, label in zip(axes4, ['(a)', '(b)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
 
 fig4.suptitle('Oppgave 4 – Innfallsvinkelestimering over [-180°, +180°]', fontsize=13)
 plt.tight_layout()

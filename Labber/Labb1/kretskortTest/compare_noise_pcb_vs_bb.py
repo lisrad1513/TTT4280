@@ -207,6 +207,11 @@ ax3b.set_title("SNR rel. full-skala  (høyere = bedre)\n"
                f"ENOB: BB={bb_enob:.2f} bit,  PCB={pcb_enob:.2f} bit")
 ax3b.grid(True, axis="y", alpha=0.3)
 
+# Subplot-etiketter
+for ax, label in zip([ax3a, ax3b], ['(a)', '(b)']):
+    ax.text(0.02, 0.97, label, transform=ax.transAxes,
+            fontsize=12, fontweight='bold', va='top')
+
 fig3.suptitle("CH3 — Breadboard vs PCB støysammenligning", fontsize=13)
 fig3.tight_layout()
 

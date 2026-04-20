@@ -59,7 +59,9 @@ c   = 343.0           # Lydhastighet [m/s]
 a   = 0.05            # Array-parameter [m]  (d = sqrt(3)*a ≈ 8.66 cm)
 d   = np.sqrt(3) * a  # Sidelengde [m]
 
-ZOOM_LAG  = 15        # Vis ±ZOOM_LAG sampler i korrelasjonsplottene
+ZOOM_LAG       = 15   # Vis ±ZOOM_LAG sampler i korrelasjonsplottene
+N_VIS_PERIODER = 50    # Antall perioder å vise i signalplot (f ≈ 1000 Hz)
+FORSKYVNING_MS = 500   # Startpunkt i ms (sett til 0 for å starte fra begynnelsen)
 
 
 # ---------------------------------------------------------------------------
@@ -127,30 +129,21 @@ m1 = m1_raw - np.mean(m1_raw)
 m2 = m2_raw - np.mean(m2_raw)
 m3 = m3_raw - np.mean(m3_raw)
 
-# Vis ~10 perioder (frekvens ≈ 1000 Hz → periode ≈ 1 ms → 10 ms totalt)
-perioder   = 10
 freq_in    = 1000    # Hz – frekvensen brukt under opptak
-t_vis      = perioder / freq_in
-idx_vis    = int(t_vis / sample_period)
+idx_start  = int(FORSKYVNING_MS * 1e-3 / sample_period)
+idx_vis    = idx_start + int(N_VIS_PERIODER / freq_in / sample_period)
 
-fig2, axes2 = plt.subplots(3, 1, figsize=(10, 7), sharex=True)
-for ax, signal, label, color in zip(
-        axes2,
+fig2, ax2 = plt.subplots(figsize=(10, 4))
+for signal, label, color in zip(
         [m1, m2, m3],
         ['Sensor 1 (kanal 0)', 'Sensor 2 (kanal 1)', 'Sensor 3 (kanal 2)'],
         ['tab:blue', 'tab:orange', 'tab:green']):
-    ax.plot(t[:idx_vis] * 1e3, signal[:idx_vis], color=color, linewidth=0.8)
-    ax.axhline(0, linestyle='--', color='k', linewidth=0.6, alpha=0.5)
-    ax.set_ylabel('Spenning [V]')
-    ax.set_title(label)
-    ax.grid(True)
-
-axes2[-1].set_xlabel('Tid [ms]')
-
-# Subplot-etiketter
-for ax, label in zip(axes2, ['(a)', '(b)', '(c)']):
-    ax.text(0.02, 0.97, label, transform=ax.transAxes,
-            fontsize=12, fontweight='bold', va='top')
+    ax2.plot(t[idx_start:idx_vis] * 1e3, signal[idx_start:idx_vis],
+             color=color, linewidth=0.8, label=label)
+ax2.axhline(0, linestyle='--', color='k', linewidth=0.6, alpha=0.5)
+ax2.set(xlabel='Tid [ms]', ylabel='Spenning [V]')
+ax2.legend(fontsize=9)
+ax2.grid(True)
 
 fig2.suptitle('Oppgave 2 – Tre mikrofonsignaler (DC fjernet)', fontsize=13)
 plt.tight_layout()

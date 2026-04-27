@@ -1,6 +1,6 @@
 # kretskortTest
 
-PCB validation for Lab 1 in ELSYSS6 (TTT4288/4280 – Sensors and Instrumentation).
+PCB validation for Lab 1 in ELSYSS6 (TTT4280 – Sensorer og instrumentering).
 
 A custom PCB was designed as an alternative to the breadboard prototype built earlier in the lab. These scripts load binary ADC recordings from the PCB and compare its performance against the breadboard baseline.
 
